@@ -22,7 +22,7 @@ namespace c969
             //open database connection
             DBConnection.startConnection();
 
-            Application.Run(new Form1());
+            Application.Run(new Login());
             
             //close database connection
             DBConnection.closeConnection();

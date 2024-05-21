@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace c969
 {
-    public partial class Form1 : Form
+    public partial class Login : Form
     {
-        public Form1()
+        public Login()
         {
             InitializeComponent();
         }
@@ -24,8 +24,8 @@ namespace c969
 
         }
 
-        private void ConnectB_Click(object sender, EventArgs e)
-        {   
+        private void loginButton_Click(object sender, EventArgs e)
+        {
 
         }
     }
