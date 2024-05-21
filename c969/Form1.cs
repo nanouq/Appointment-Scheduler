@@ -25,34 +25,7 @@ namespace c969
         }
 
         private void ConnectB_Click(object sender, EventArgs e)
-        {
-            //get connection string
-            string constr = ConfigurationManager.ConnectionStrings["localdb"].ConnectionString;
-
-            //make connection
-            MySqlConnection conn = null;
-
-            //open connection
-            try
-            {
-                conn = new MySqlConnection(constr);
-
-                conn.Open();
-
-                MessageBox.Show("Connection is open");
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                //close connection
-                if(conn != null)
-                {
-                    conn.Close();
-                }
-            }
+        {   
 
         }
     }

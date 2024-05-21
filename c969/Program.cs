@@ -1,5 +1,7 @@
-﻿using System;
+﻿using c969.Database;
+using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +18,14 @@ namespace c969
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            //open database connection
+            DBConnection.startConnection();
+
             Application.Run(new Form1());
+            
+            //close database connection
+            DBConnection.closeConnection();
         }
     }
 }
