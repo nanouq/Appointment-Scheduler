@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using c969.Database;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,12 +17,14 @@ namespace c969
     public partial class Login : Form
     {
         public string errorMessage = "Invalid credentials.";
+        public int userId;
+        public string userName;
         public Login()
         {
             InitializeComponent();
 
             //Translate login text to French when localization is changed.
-            if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "en")
+            if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "fr")
             {
                 usernameLabel.Text = "Nom d'utilisateur";
                 passwordLabel.Text = "Mot de passe";
@@ -37,8 +40,28 @@ namespace c969
         }
 
         private void loginButton_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(errorMessage);
+        {       
+            //Creates SQL username query
+             MySqlCommand cmd = new MySqlCommand($"SELECT userId FROM user WHERE userName = '{usernameBox.Text}' AND password = '{passwordBox.Text}'", DBConnection.conn);
+             MySqlDataReader reader = cmd.ExecuteReader();
+
+            //Checks for instance of username and opens schedule window if found, alerts user to an error if not found
+            if (reader.HasRows)
+            {
+                reader.Read();
+                userId = Convert.ToInt32(reader[0]);
+                userName = usernameBox.Text;
+                reader.Close();
+                MessageBox.Show("User " + userName + " was found. Their id is " + userId);
+                Main mainForm = new Main();
+                mainForm.loginForm = this;
+                this.Hide();
+                mainForm.Show();
+            }
+            else
+            {
+                MessageBox.Show(errorMessage);
+            }
         }
     }
 }
