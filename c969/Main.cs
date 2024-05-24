@@ -28,5 +28,11 @@ namespace c969
             //closes the hidden login form to close the whole program
             loginForm.Close();
         }
+
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            loginForm.Close();
+            this.Close();
+        }
     }
 }
