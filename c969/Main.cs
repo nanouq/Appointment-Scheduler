@@ -1,4 +1,6 @@
-﻿using System;
+﻿using c969.Database;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +18,11 @@ namespace c969
         public Main()
         {
             InitializeComponent();
+            MySqlCommand cmd = new MySqlCommand("SELECT appointmentId, customerId, userId, type, start, end, createDate, createdBy, lastUpdate, lastUpdateBy FROM appointment", DBConnection.conn);
+            MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adp.Fill(dt);
+            appointmentView.DataSource = dt;
         }
 
         private void Main_Load(object sender, EventArgs e)

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.appointmentView = new System.Windows.Forms.DataGridView();
             this.customerButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
@@ -43,16 +43,17 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appointmentView)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // appointmentView
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(178, 53);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(806, 414);
-            this.dataGridView1.TabIndex = 0;
+            this.appointmentView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.appointmentView.Location = new System.Drawing.Point(178, 53);
+            this.appointmentView.Name = "appointmentView";
+            this.appointmentView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.appointmentView.Size = new System.Drawing.Size(806, 414);
+            this.appointmentView.TabIndex = 0;
             // 
             // customerButton
             // 
@@ -105,10 +106,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.LightGray;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 33);
+            this.label2.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(9, 33);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 16);
+            this.label2.Size = new System.Drawing.Size(42, 16);
             this.label2.TabIndex = 7;
             this.label2.Text = "View:";
             // 
@@ -212,13 +213,13 @@
             this.Controls.Add(this.editButton);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.customerButton);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.appointmentView);
             this.Controls.Add(this.splitter1);
             this.Name = "Main";
-            this.Text = "Main";
+            this.Text = "Scheduler";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appointmentView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -226,7 +227,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView appointmentView;
         private System.Windows.Forms.Button customerButton;
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.Button editButton;
