@@ -19,14 +19,14 @@ namespace c969
 
         public Customer(int customerID, string customerName, int addressID, bool active, string createDate, string createdBy, string lastUpdate, string lastUpdatedBy)
         {
-            CustomerID = customerID;
+            CustomerId = customerID;
             CustomerName = customerName;
-            AddressID = addressID;
+            AddressId = addressID;
             Active = active;
             CreateDate = createDate;
             CreatedBy = createdBy;
             LastUpdate = lastUpdate;
-            LastUpdatedBy = lastUpdatedBy;
+            LastUpdateBy = lastUpdatedBy;
 
         }
     }

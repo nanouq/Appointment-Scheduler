@@ -33,6 +33,9 @@
             this.passwordBox = new System.Windows.Forms.TextBox();
             this.usernameLabel = new System.Windows.Forms.Label();
             this.passwordLabel = new System.Windows.Forms.Label();
+            this.loginLabel = new System.Windows.Forms.Label();
+            this.currentLabel = new System.Windows.Forms.Label();
+            this.locationLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // loginButton
@@ -47,7 +50,7 @@
             // 
             // usernameBox
             // 
-            this.usernameBox.Location = new System.Drawing.Point(69, 69);
+            this.usernameBox.Location = new System.Drawing.Point(69, 84);
             this.usernameBox.Name = "usernameBox";
             this.usernameBox.Size = new System.Drawing.Size(148, 20);
             this.usernameBox.TabIndex = 1;
@@ -63,7 +66,7 @@
             // usernameLabel
             // 
             this.usernameLabel.AutoSize = true;
-            this.usernameLabel.Location = new System.Drawing.Point(68, 53);
+            this.usernameLabel.Location = new System.Drawing.Point(68, 68);
             this.usernameLabel.Name = "usernameLabel";
             this.usernameLabel.Size = new System.Drawing.Size(55, 13);
             this.usernameLabel.TabIndex = 3;
@@ -78,11 +81,42 @@
             this.passwordLabel.TabIndex = 4;
             this.passwordLabel.Text = "Password";
             // 
+            // loginLabel
+            // 
+            this.loginLabel.AutoSize = true;
+            this.loginLabel.Font = new System.Drawing.Font("Georgia", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loginLabel.Location = new System.Drawing.Point(100, 25);
+            this.loginLabel.Name = "loginLabel";
+            this.loginLabel.Size = new System.Drawing.Size(83, 31);
+            this.loginLabel.TabIndex = 5;
+            this.loginLabel.Text = "Login";
+            // 
+            // currentLabel
+            // 
+            this.currentLabel.AutoSize = true;
+            this.currentLabel.Location = new System.Drawing.Point(68, 168);
+            this.currentLabel.Name = "currentLabel";
+            this.currentLabel.Size = new System.Drawing.Size(88, 13);
+            this.currentLabel.TabIndex = 6;
+            this.currentLabel.Text = "Current Location:";
+            // 
+            // locationLabel
+            // 
+            this.locationLabel.AutoSize = true;
+            this.locationLabel.Location = new System.Drawing.Point(169, 168);
+            this.locationLabel.Name = "locationLabel";
+            this.locationLabel.Size = new System.Drawing.Size(48, 13);
+            this.locationLabel.TabIndex = 7;
+            this.locationLabel.Text = "Location";
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.locationLabel);
+            this.Controls.Add(this.currentLabel);
+            this.Controls.Add(this.loginLabel);
             this.Controls.Add(this.passwordLabel);
             this.Controls.Add(this.usernameLabel);
             this.Controls.Add(this.passwordBox);
@@ -103,6 +137,9 @@
         private System.Windows.Forms.TextBox passwordBox;
         private System.Windows.Forms.Label usernameLabel;
         private System.Windows.Forms.Label passwordLabel;
+        private System.Windows.Forms.Label loginLabel;
+        private System.Windows.Forms.Label currentLabel;
+        private System.Windows.Forms.Label locationLabel;
     }
 }
 

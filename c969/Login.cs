@@ -22,6 +22,7 @@ namespace c969
         public Login()
         {
             InitializeComponent();
+            locationLabel.Text = CultureInfo.CurrentCulture.DisplayName;
 
             //Translate login text to French when localization is changed.
             if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "fr")
@@ -29,6 +30,8 @@ namespace c969
                 usernameLabel.Text = "Nom d'utilisateur";
                 passwordLabel.Text = "Mot de passe";
                 loginButton.Text = "Entrer";
+                loginLabel.Text = "Se connecter";
+                currentLabel.Text = "Localisation actuelle:";
                 this.Text = "Se connecter";
                 errorMessage = "Les informations d'identification invalides.";
             }

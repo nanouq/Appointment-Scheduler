@@ -53,6 +53,7 @@
             this.appointmentView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.appointmentView.Location = new System.Drawing.Point(271, 53);
             this.appointmentView.Name = "appointmentView";
+            this.appointmentView.RowHeadersVisible = false;
             this.appointmentView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.appointmentView.Size = new System.Drawing.Size(713, 414);
             this.appointmentView.TabIndex = 0;
