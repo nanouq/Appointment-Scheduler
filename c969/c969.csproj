@@ -98,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Customer.cs" />
     <Compile Include="Database\DBConnection.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
