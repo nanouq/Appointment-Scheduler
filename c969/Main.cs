@@ -18,11 +18,7 @@ namespace c969
         public Main()
         {
             InitializeComponent();
-            MySqlCommand cmd = new MySqlCommand("SELECT appointmentId, customerId, userId, type, start, end, createDate, createdBy, lastUpdate, lastUpdateBy FROM appointment", DBConnection.conn);
-            MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            adp.Fill(dt);
-            appointmentView.DataSource = dt;
+            reloadAppointments();          
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -45,6 +41,37 @@ namespace c969
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        //Changes the datagridview and UI to customer information
+        private void customerButton_Click(object sender, EventArgs e)
+        {
+            mainText.Text = "Customers";
+            appointmentsButton.Enabled = true;
+            MySqlCommand cmd = new MySqlCommand("SELECT customerId, customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy FROM customer", DBConnection.conn);
+            MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adp.Fill(dt);
+            appointmentView.DataSource = dt;
+            customerButton.Enabled = false;
+        }
+
+        //Changes the datagridview and UI to appointment information (default)
+        private void reloadAppointments()
+        {
+            mainText.Text = "Appointments";
+            MySqlCommand cmd = new MySqlCommand("SELECT appointmentId, customerId, userId, type, start, end, createDate, createdBy, lastUpdate, lastUpdateBy FROM appointment", DBConnection.conn);
+            MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adp.Fill(dt);
+            appointmentView.DataSource = dt;
+            appointmentsButton.Enabled = false;        
+        }
+
+        private void appointmentsButton_Click(object sender, EventArgs e)
+        {    
+            customerButton.Enabled = true;
+            reloadAppointments();
         }
     }
 }

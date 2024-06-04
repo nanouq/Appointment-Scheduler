@@ -53,6 +53,7 @@
             this.appointmentView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.appointmentView.Location = new System.Drawing.Point(271, 53);
             this.appointmentView.Name = "appointmentView";
+            this.appointmentView.ReadOnly = true;
             this.appointmentView.RowHeadersVisible = false;
             this.appointmentView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.appointmentView.Size = new System.Drawing.Size(713, 414);
@@ -67,6 +68,7 @@
             this.customerButton.TabIndex = 2;
             this.customerButton.Text = "Customers";
             this.customerButton.UseVisualStyleBackColor = true;
+            this.customerButton.Click += new System.EventHandler(this.customerButton_Click);
             // 
             // addButton
             // 
@@ -145,6 +147,7 @@
             this.appointmentsButton.TabIndex = 14;
             this.appointmentsButton.Text = "Appointments";
             this.appointmentsButton.UseVisualStyleBackColor = true;
+            this.appointmentsButton.Click += new System.EventHandler(this.appointmentsButton_Click);
             // 
             // reportButton
             // 
@@ -159,6 +162,7 @@
             // 
             this.allAppointmentsButton.AutoSize = true;
             this.allAppointmentsButton.BackColor = System.Drawing.Color.LightGray;
+            this.allAppointmentsButton.Checked = true;
             this.allAppointmentsButton.Location = new System.Drawing.Point(184, 35);
             this.allAppointmentsButton.Name = "allAppointmentsButton";
             this.allAppointmentsButton.Size = new System.Drawing.Size(36, 17);
