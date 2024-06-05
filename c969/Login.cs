@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace c969
         public string errorMessage = "Invalid credentials.";
         public int userId;
         public string userName;
+        static string filePath = "Login_History.txt";
         public Login()
         {
             InitializeComponent();
@@ -56,6 +58,12 @@ namespace c969
                 userName = usernameBox.Text;
                 reader.Close();
                 MessageBox.Show("User " + userName + " was found. Their id is " + userId);
+
+                //Write to Login_History file located in Bin folder
+                TextWriter tw = new StreamWriter(filePath,true);
+                tw.WriteLine($"{DateTime.Now.ToString()} - {userName} logged in.");
+                tw.Close();
+                
                 Main mainForm = new Main();
                 mainForm.loginForm = this;
                 this.Hide();
