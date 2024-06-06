@@ -73,5 +73,13 @@ namespace c969
             customerButton.Enabled = true;
             reloadAppointments();
         }
+
+        private void addButton_Click(object sender, EventArgs e)
+        {
+            if (mainText.Text == "Customers")
+            {
+                new AddCustomer().ShowDialog();
+            }
+        }
     }
 }

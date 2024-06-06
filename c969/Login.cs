@@ -44,6 +44,7 @@ namespace c969
 
         }
 
+        // TO DO --- ADD CREDENTIAL VERIFICATION
         private void loginButton_Click(object sender, EventArgs e)
         {       
             //Creates SQL username query
