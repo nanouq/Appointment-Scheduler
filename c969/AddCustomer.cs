@@ -1,4 +1,5 @@
-﻿using System;
+﻿using c969.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,9 +21,11 @@ namespace c969
         ErrorProvider errorZip = new ErrorProvider();
         ErrorProvider errorCountry = new ErrorProvider();
         ErrorProvider errorPhone = new ErrorProvider();
-        public AddCustomer()
+        User currentUser;
+        public AddCustomer(User user)
         {
             InitializeComponent();
+            currentUser = user;
         }
 
         private void button1_Click(object sender, EventArgs e)

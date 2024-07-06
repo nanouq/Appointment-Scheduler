@@ -1,4 +1,5 @@
 ﻿using c969.Database;
+using c969.Models;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,12 @@ namespace c969
 {
     public partial class Main : Form
     {
-        public Login loginForm; 
-        public Main()
+        User currentUser;
+        public Main(User user)
         {
             InitializeComponent();
-            reloadAppointments();          
+            reloadAppointments();
+            currentUser = user;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -28,13 +30,13 @@ namespace c969
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //closes the hidden login form to close the whole program
-            loginForm.Close();
+            //closes the hidden login form to close the whole program     
+            Application.Exit();
         }
 
         private void exitButton_Click(object sender, EventArgs e)
         {
-            loginForm.Close();
+            Application.Exit();
             this.Close();
         }
 
@@ -78,7 +80,7 @@ namespace c969
         {
             if (mainText.Text == "Customers")
             {
-                new AddCustomer().ShowDialog();
+                new AddCustomer(currentUser).ShowDialog();
             }
         }
     }
