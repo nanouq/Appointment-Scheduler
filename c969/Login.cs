@@ -1,4 +1,5 @@
 ﻿using c969.Database;
+using c969.Models;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,8 @@ namespace c969
                 TextWriter tw = new StreamWriter(filePath,true);
                 tw.WriteLine($"{DateTime.Now.ToString()} - {userName} logged in.");
                 tw.Close();
-                
+
+                User newUser = new User(usernameBox.Text, passwordBox.Text);
                 Main mainForm = new Main();
                 mainForm.loginForm = this;
                 this.Hide();
@@ -73,6 +75,7 @@ namespace c969
             else
             {
                 MessageBox.Show(errorMessage);
+                reader.Close();
             }
         }
     }
