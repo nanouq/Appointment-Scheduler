@@ -110,9 +110,10 @@
     <Compile Include="AddCustomer.Designer.cs">
       <DependentUpon>AddCustomer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Appointment.cs" />
-    <Compile Include="Customer.cs" />
+    <Compile Include="Models\Appointment.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Database\DBConnection.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
