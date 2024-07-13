@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,6 +14,7 @@ namespace c969
 {
     public partial class AddCustomer : Form
     {
+        /*
         ErrorProvider errorFirstName = new ErrorProvider();
         ErrorProvider errorLastName = new ErrorProvider();
         ErrorProvider errorAddress = new ErrorProvider();
@@ -21,6 +23,8 @@ namespace c969
         ErrorProvider errorZip = new ErrorProvider();
         ErrorProvider errorCountry = new ErrorProvider();
         ErrorProvider errorPhone = new ErrorProvider();
+        */
+        ErrorProvider errorProvider = new ErrorProvider();
         User currentUser;
         public AddCustomer(User user)
         {
@@ -40,35 +44,32 @@ namespace c969
 
         private void validateFields()
         {
-            
+            Regex regex = new Regex(@"^\d{3}-?\d{3}-?\d{4}$");
+            Match match = regex.Match(numberBox.Text.Trim());
+            //1st check
+            //check if all fields are filled out
+            if (string.IsNullOrEmpty(firstNameBox.Text.Trim()) || string.IsNullOrEmpty(lastNameBox.Text.Trim()) || string.IsNullOrEmpty(addressBox.Text.Trim()) || string.IsNullOrEmpty(cityBox.Text.Trim()) ||
+                string.IsNullOrEmpty(postalBox.Text.Trim()) || string.IsNullOrEmpty(countryBox.Text.Trim()) || string.IsNullOrEmpty(numberBox.Text.Trim()))
+            {
+                MessageBox.Show("Please fill out all required fields.");
+            }
+            else if (match.Success == false) //2nd check, phone number field validation
+            {
+                MessageBox.Show("Please enter a valid phone number.");
+            }
+            else
+            {
+                MessageBox.Show("Success!");
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBox1.Text))
-            {
-                textBox1.BackColor = Color.Salmon;
-                errorFirstName.SetError(textBox1, "First name is required");
-            }
-            else
-            {
-                textBox1.BackColor = Color.White;
-                errorFirstName.Clear();
-            }
+
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBox2.Text))
-            {
-                textBox2.BackColor = Color.Salmon;
-                errorLastName.SetError(textBox2, "Last name is required");
-            }
-            else
-            {
-                textBox2.BackColor = Color.White;
-                errorLastName.Clear();
-            }
         }
     }
 }

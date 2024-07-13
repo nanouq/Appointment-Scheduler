@@ -36,14 +36,14 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.firstNameBox = new System.Windows.Forms.TextBox();
+            this.lastNameBox = new System.Windows.Forms.TextBox();
+            this.addressBox = new System.Windows.Forms.TextBox();
+            this.addressTwoBox = new System.Windows.Forms.TextBox();
+            this.cityBox = new System.Windows.Forms.TextBox();
+            this.postalBox = new System.Windows.Forms.TextBox();
+            this.countryBox = new System.Windows.Forms.TextBox();
+            this.numberBox = new System.Windows.Forms.TextBox();
             this.submitButton = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -121,63 +121,63 @@
             this.label8.TabIndex = 7;
             this.label8.Text = "Country:";
             // 
-            // textBox1
+            // firstNameBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(51, 92);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(125, 20);
-            this.textBox1.TabIndex = 8;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.firstNameBox.Location = new System.Drawing.Point(51, 92);
+            this.firstNameBox.Name = "firstNameBox";
+            this.firstNameBox.Size = new System.Drawing.Size(125, 20);
+            this.firstNameBox.TabIndex = 8;
+            this.firstNameBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // textBox2
+            // lastNameBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(198, 92);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(125, 20);
-            this.textBox2.TabIndex = 9;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.lastNameBox.Location = new System.Drawing.Point(198, 92);
+            this.lastNameBox.Name = "lastNameBox";
+            this.lastNameBox.Size = new System.Drawing.Size(125, 20);
+            this.lastNameBox.TabIndex = 9;
+            this.lastNameBox.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
-            // textBox3
+            // addressBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(51, 143);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(272, 20);
-            this.textBox3.TabIndex = 10;
+            this.addressBox.Location = new System.Drawing.Point(51, 143);
+            this.addressBox.Name = "addressBox";
+            this.addressBox.Size = new System.Drawing.Size(272, 20);
+            this.addressBox.TabIndex = 10;
             // 
-            // textBox4
+            // addressTwoBox
             // 
-            this.textBox4.Location = new System.Drawing.Point(51, 192);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(272, 20);
-            this.textBox4.TabIndex = 11;
+            this.addressTwoBox.Location = new System.Drawing.Point(51, 192);
+            this.addressTwoBox.Name = "addressTwoBox";
+            this.addressTwoBox.Size = new System.Drawing.Size(272, 20);
+            this.addressTwoBox.TabIndex = 11;
             // 
-            // textBox5
+            // cityBox
             // 
-            this.textBox5.Location = new System.Drawing.Point(51, 239);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(125, 20);
-            this.textBox5.TabIndex = 12;
+            this.cityBox.Location = new System.Drawing.Point(51, 239);
+            this.cityBox.Name = "cityBox";
+            this.cityBox.Size = new System.Drawing.Size(125, 20);
+            this.cityBox.TabIndex = 12;
             // 
-            // textBox6
+            // postalBox
             // 
-            this.textBox6.Location = new System.Drawing.Point(198, 239);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(125, 20);
-            this.textBox6.TabIndex = 13;
+            this.postalBox.Location = new System.Drawing.Point(198, 239);
+            this.postalBox.Name = "postalBox";
+            this.postalBox.Size = new System.Drawing.Size(125, 20);
+            this.postalBox.TabIndex = 13;
             // 
-            // textBox7
+            // countryBox
             // 
-            this.textBox7.Location = new System.Drawing.Point(51, 283);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(272, 20);
-            this.textBox7.TabIndex = 14;
+            this.countryBox.Location = new System.Drawing.Point(51, 283);
+            this.countryBox.Name = "countryBox";
+            this.countryBox.Size = new System.Drawing.Size(272, 20);
+            this.countryBox.TabIndex = 14;
             // 
-            // textBox8
+            // numberBox
             // 
-            this.textBox8.Location = new System.Drawing.Point(51, 331);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(272, 20);
-            this.textBox8.TabIndex = 15;
+            this.numberBox.Location = new System.Drawing.Point(51, 331);
+            this.numberBox.Name = "numberBox";
+            this.numberBox.Size = new System.Drawing.Size(272, 20);
+            this.numberBox.TabIndex = 15;
             // 
             // submitButton
             // 
@@ -219,14 +219,14 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.submitButton);
-            this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.textBox7);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.numberBox);
+            this.Controls.Add(this.countryBox);
+            this.Controls.Add(this.postalBox);
+            this.Controls.Add(this.cityBox);
+            this.Controls.Add(this.addressTwoBox);
+            this.Controls.Add(this.addressBox);
+            this.Controls.Add(this.lastNameBox);
+            this.Controls.Add(this.firstNameBox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -252,14 +252,14 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox firstNameBox;
+        private System.Windows.Forms.TextBox lastNameBox;
+        private System.Windows.Forms.TextBox addressBox;
+        private System.Windows.Forms.TextBox addressTwoBox;
+        private System.Windows.Forms.TextBox cityBox;
+        private System.Windows.Forms.TextBox postalBox;
+        private System.Windows.Forms.TextBox countryBox;
+        private System.Windows.Forms.TextBox numberBox;
         private System.Windows.Forms.Button submitButton;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button button1;
