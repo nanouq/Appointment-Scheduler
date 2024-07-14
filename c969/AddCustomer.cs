@@ -47,7 +47,6 @@ namespace c969
             //regex that specifies the phone number field should only be formatted as 0000000000 or 000-000-0000
             Regex regex = new Regex(@"^\d{3}-?\d{3}-?\d{4}$");
             Match match = regex.Match(numberBox.Text.Trim());
-
             //1st check
             //check if all fields are filled out
             if (string.IsNullOrEmpty(firstNameBox.Text.Trim()) || string.IsNullOrEmpty(lastNameBox.Text.Trim()) || string.IsNullOrEmpty(addressBox.Text.Trim()) || string.IsNullOrEmpty(cityBox.Text.Trim()) ||
@@ -61,6 +60,15 @@ namespace c969
             }
             else
             {
+                try
+                {
+                    int countryid = Helper.createCountry(countryBox.Text.Trim(), currentUser.username);
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+                
                 MessageBox.Show("Success!");
             }
         }
