@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace c969
 {
@@ -74,9 +75,17 @@ namespace c969
             {
                 try
                 {
-                    //int countryid = Helper.createCountry(countryBox.Text.Trim(), currentUser.username); <- this successfully makes a country
-                    //Helper.createCustomer(firstName, lastName, address, addressTwo, city, postalCode, country, phoneNumber, currentUser.username);
-                    //int cityId = Helper.createCity(city, country, currentUser.username); <-- this successfully makes a city
+                    bool didItCreate = Helper.createCustomer(firstName, lastName, address, addressTwo, city, postalCode, country, phoneNumber, currentUser.username);
+                    if (didItCreate)
+                    {
+                        MessageBox.Show($"Customer successfully created! :) {didItCreate}");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Unable to add customer. Customer already exists.","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    
     
                 }
                 catch(Exception e)

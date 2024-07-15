@@ -48,6 +48,11 @@ namespace c969
         //Changes the datagridview and UI to customer information
         private void customerButton_Click(object sender, EventArgs e)
         {
+            reloadCustomers();
+        }
+
+        private void reloadCustomers()
+        {
             mainText.Text = "Customers";
             appointmentsButton.Enabled = true;
             MySqlCommand cmd = new MySqlCommand("SELECT customerId, customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy FROM customer", DBConnection.conn);
@@ -81,6 +86,7 @@ namespace c969
             if (mainText.Text == "Customers")
             {
                 new AddCustomer(currentUser).ShowDialog();
+                reloadCustomers();
             }
         }
     }

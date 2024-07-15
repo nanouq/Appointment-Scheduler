@@ -66,15 +66,66 @@ namespace c969
             return 0;
         }
 
-        public static void createCustomer(string firstName, string lastName, string address, string addressTwo, string city, string postalCode, string country, string phoneNumber, string username)
+        public static bool createCustomer(string firstName, string lastName, string address, string addressTwo, string city, string postalCode, string country, string phoneNumber, string username)
         {
             int addressId = createAddress(address, addressTwo, city, postalCode, country, phoneNumber, username);
+            string fullName = $"{firstName} {lastName}";
+            int customerId = 0;
+
+            //check to see if the customer is already in the database
+            string query = $"SELECT customerId FROM customer WHERE customerName = '{fullName}' AND addressId = '{addressId}'";
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows) //the combination of name and address exist already
+            {
+                reader.Read();
+                customerId = reader.GetInt32(0);
+                reader.Close();
+                return false;
+            }
+            reader.Close();
+
+            customerId = getNextID("customerId","customer") + 1;
+            //if the combination doesnt exist yet 
+            string insertQuery = $"INSERT into customer (customerId, customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    $"VALUES ('{customerId}', '{fullName}', '{addressId}', 1, CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
+
+            MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
+
+            insert.ExecuteNonQuery();
+
+            return true;
         }
 
         public static int createAddress(string address, string addressTwo, string city, string postalCode, string country, string phoneNumber, string username)
         {
             int cityId = createCity(city, country, username);
-            return 0;
+            int addressId = getNextID("addressId","address") + 1;
+
+            //check to see if there is already an existing combo of address, city, and postal code
+            string query = $"SELECT addressId FROM address WHERE address = '{address}' AND cityId = '{cityId}' AND postalCode = '{postalCode}'";
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows) //the combination of address, city, and postal code exists
+            {
+                reader.Read();
+                addressId = reader.GetInt32(0);
+                reader.Close();
+                return addressId;
+            }
+            reader.Close();
+
+            //if the combination doesnt exist yet 
+            string insertQuery = $"INSERT into address (addressId, address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    $"VALUES ('{addressId}', '{address}', '{addressTwo}', '{cityId}', '{postalCode}', '{phoneNumber}', CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
+
+            MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
+
+            insert.ExecuteNonQuery();
+
+            return addressId;
         }
 
         public static int createCity(string city, string country, string username)
