@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,6 +64,51 @@ namespace c969
             }
             reader.Close();
             return 0;
+        }
+
+        public static void createCustomer(string firstName, string lastName, string address, string addressTwo, string city, string postalCode, string country, string phoneNumber, string username)
+        {
+            int addressId = createAddress(address, addressTwo, city, postalCode, country, phoneNumber, username);
+        }
+
+        public static int createAddress(string address, string addressTwo, string city, string postalCode, string country, string phoneNumber, string username)
+        {
+            int cityId = createCity(city, country, username);
+            return 0;
+        }
+
+        public static int createCity(string city, string country, string username)
+        {
+            int countryId = createCountry(country, username);
+            int cityId = 0;
+
+            //check if city already exists
+            string query = $"SELECT cityId FROM city WHERE city = '{city}' AND countryId = '{countryId}'";
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows) //the combination of city and country exist already
+            {
+                reader.Read();
+                cityId = reader.GetInt32(0);
+                reader.Close();
+            }
+            reader.Close();
+
+            if (cityId == 0) //the combination of city and country does not exist yet
+            {
+                cityId = getNextID("cityId", "city") + 1;
+
+                string insertQuery = $"INSERT into city (cityId, city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    $"VALUES ('{cityId}', '{city}', '{countryId}', CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
+
+                MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
+
+                insert.ExecuteNonQuery();
+                return cityId;
+            }
+
+            return cityId;
         }
     }
 }

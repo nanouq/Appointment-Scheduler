@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -26,6 +27,7 @@ namespace c969
         */
         ErrorProvider errorProvider = new ErrorProvider();
         User currentUser;
+        TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
         public AddCustomer(User user)
         {
             InitializeComponent();
@@ -45,12 +47,22 @@ namespace c969
         private void validateFields()
         {
             //regex that specifies the phone number field should only be formatted as 0000000000 or 000-000-0000
-            Regex regex = new Regex(@"^\d{3}-?\d{3}-?\d{4}$");
+            Regex regex = new Regex(@"^(\d{3}-?\d{4}|\d{3}-?\d{3}-?\d{4})$");
             Match match = regex.Match(numberBox.Text.Trim());
+            string firstName = textInfo.ToTitleCase(firstNameBox.Text.Trim());
+            string lastName = textInfo.ToTitleCase(lastNameBox.Text.Trim());
+            string address = addressBox.Text.Trim();
+            string addressTwo = textInfo.ToTitleCase(addressTwoBox.Text.Trim());
+            string city = textInfo.ToTitleCase(cityBox.Text.Trim());
+            string postalCode = postalBox.Text.Trim();
+            string country = textInfo.ToTitleCase(countryBox.Text.Trim());
+            string phoneNumber = numberBox.Text.Trim();
+
+            
             //1st check
             //check if all fields are filled out
-            if (string.IsNullOrEmpty(firstNameBox.Text.Trim()) || string.IsNullOrEmpty(lastNameBox.Text.Trim()) || string.IsNullOrEmpty(addressBox.Text.Trim()) || string.IsNullOrEmpty(cityBox.Text.Trim()) ||
-                string.IsNullOrEmpty(postalBox.Text.Trim()) || string.IsNullOrEmpty(countryBox.Text.Trim()) || string.IsNullOrEmpty(numberBox.Text.Trim()))
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(address) || string.IsNullOrEmpty(city) ||
+                string.IsNullOrEmpty(postalCode) || string.IsNullOrEmpty(country) || string.IsNullOrEmpty(phoneNumber))
             {
                 MessageBox.Show("Please fill out all required fields.");
             }
@@ -62,7 +74,10 @@ namespace c969
             {
                 try
                 {
-                    int countryid = Helper.createCountry(countryBox.Text.Trim(), currentUser.username);
+                    //int countryid = Helper.createCountry(countryBox.Text.Trim(), currentUser.username); <- this successfully makes a country
+                    //Helper.createCustomer(firstName, lastName, address, addressTwo, city, postalCode, country, phoneNumber, currentUser.username);
+                    //int cityId = Helper.createCity(city, country, currentUser.username); <-- this successfully makes a city
+    
                 }
                 catch(Exception e)
                 {
