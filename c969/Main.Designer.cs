@@ -50,6 +50,11 @@
             // 
             // appointmentView
             // 
+            this.appointmentView.AllowUserToAddRows = false;
+            this.appointmentView.AllowUserToDeleteRows = false;
+            this.appointmentView.AllowUserToResizeColumns = false;
+            this.appointmentView.AllowUserToResizeRows = false;
+            this.appointmentView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.appointmentView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.appointmentView.Location = new System.Drawing.Point(271, 53);
             this.appointmentView.Name = "appointmentView";

@@ -55,7 +55,7 @@ namespace c969
         {
             mainText.Text = "Customers";
             appointmentsButton.Enabled = true;
-            MySqlCommand cmd = new MySqlCommand("SELECT customerId, customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy FROM customer", DBConnection.conn);
+            MySqlCommand cmd = new MySqlCommand("SELECT customerId, customerName, addressId, active FROM customer", DBConnection.conn);
             MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adp.Fill(dt);
@@ -67,7 +67,7 @@ namespace c969
         private void reloadAppointments()
         {
             mainText.Text = "Appointments";
-            MySqlCommand cmd = new MySqlCommand("SELECT appointmentId, customerId, userId, type, start, end, createDate, createdBy, lastUpdate, lastUpdateBy FROM appointment", DBConnection.conn);
+            MySqlCommand cmd = new MySqlCommand("SELECT appointmentId, customerId, userId, type, start, end FROM appointment", DBConnection.conn);
             MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adp.Fill(dt);
