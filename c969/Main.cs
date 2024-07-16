@@ -89,5 +89,19 @@ namespace c969
                 reloadCustomers();
             }
         }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            if (mainText.Text == "Customers")
+            {
+                if (appointmentView.SelectedRows.Count != 0)
+                {
+                    int customerId = (int)appointmentView.SelectedRows[0].Cells[0].Value;
+                    MessageBox.Show($"{customerId}");
+                    new UpdateCustomer(currentUser, customerId).ShowDialog();
+                }
+                
+            }
+        }
     }
 }

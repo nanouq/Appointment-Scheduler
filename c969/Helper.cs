@@ -6,6 +6,7 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace c969
 {
@@ -160,6 +161,32 @@ namespace c969
             }
 
             return cityId;
+        }
+
+        public static string[] getCustomerInformation(int id)
+        {
+            string[] customerInfo = new string[7];
+            string query = $"SELECT c.customerName, a.address, a.address2, ci.city, a.postalCode, co.country, a.phone FROM customer c " +
+                $"JOIN address a ON c.addressId = a.addressId JOIN city ci ON a.cityId = ci.cityId JOIN country co ON ci.countryId = co.countryId WHERE customerId = {id}";
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows) 
+            {
+                reader.Read();
+               for (int i = 0; i < 7; i++)
+                {
+                    customerInfo[i] = reader[i].ToString();
+                }
+                reader.Close();
+                Console.WriteLine("ROW WAS FOUND");
+            }
+            reader.Close();
+
+            
+
+
+            return customerInfo;
         }
     }
 }
