@@ -29,8 +29,7 @@ namespace c969
             Zip = zip;
             Country = country;
             Phone = phone;
-      
-
+     
         }
     }
 }
