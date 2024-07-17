@@ -99,6 +99,7 @@ namespace c969
                     int customerId = (int)appointmentView.SelectedRows[0].Cells[0].Value;
                     MessageBox.Show($"{customerId}");
                     new UpdateCustomer(currentUser, customerId).ShowDialog();
+                    reloadCustomers();
                 }
                 
             }

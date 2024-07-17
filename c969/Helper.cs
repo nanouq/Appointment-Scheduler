@@ -106,14 +106,9 @@ namespace c969
             int cityId = createCity(city, country, username);
             int addressId = getNextID("addressId","address") + 1;
 
-            //DELETE THIS IF EVERYTHING WORKS PROPERLY
-            //-----BECAUSE OF UPDATE CUSTOMER, CUSTOMER AND ADDRESS ARE 1 TO 1 
-            //-----AN ADDRESS WILL HAVE EXACTLY 1 CUSTOMER ATTACHED TO IT
-            
-
-            
-            //check to see if there is already an existing combo of address, city, and postal code
-            string query = $"SELECT addressId FROM address WHERE address = '{address}' AND cityId = '{cityId}' AND postalCode = '{postalCode}'";
+            //check to see if there is already an existing combination
+            string query = $"SELECT addressId FROM address WHERE address = '{address}' AND address2 = '{addressTwo}' " +
+                $"AND cityId = '{cityId}' AND postalCode = '{postalCode}' AND phone = '{phoneNumber}'";
             MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
             MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -160,7 +155,7 @@ namespace c969
             if (cityId == 0) //the combination of city and country does not exist yet
             {
             
-                int cityId = getNextID("cityId", "city") + 1;
+                cityId = getNextID("cityId", "city") + 1;
 
                 string insertQuery = $"INSERT into city (cityId, city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) " +
                     $"VALUES ('{cityId}', '{city}', '{countryId}', CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
@@ -177,6 +172,8 @@ namespace c969
         public static string[] getCustomerInformation(int id)
         {
             string[] customerInfo = new string[7];
+
+
             string query = $"SELECT c.customerName, a.address, a.address2, ci.city, a.postalCode, co.country, a.phone FROM customer c " +
                 $"JOIN address a ON c.addressId = a.addressId JOIN city ci ON a.cityId = ci.cityId JOIN country co ON ci.countryId = co.countryId WHERE customerId = {id}";
             MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
@@ -194,34 +191,18 @@ namespace c969
             }
             reader.Close();
 
-            
-
-
             return customerInfo;
         }
 
         public static void updateCustomer(Customer c, string username)
         {
-            MySqlTransaction transaction = Database.DBConnection.conn.BeginTransaction();
+            int addressId = createAddress(c.Address, c.AddressTwo, c.City, c.Zip, c.Country, c.Phone, username);
 
-            string updateCustomerQuery = $"UPDATE customer SET customerName = {c.CustomerName}, lastUpdate = CURRENT_TIMESTAMP, lastUpdateBy = {username} WHERE customerId = {c.CustomerId}";
+            string updateCustomerQuery = $"UPDATE customer SET customerName = '{c.CustomerName}', addressId = {addressId}, lastUpdate = CURRENT_TIMESTAMP, lastUpdateBy = '{username}' WHERE customerId = {c.CustomerId}";
 
-            string updateAddressQuery = $"UPDATE address SET address = {c.Address}, address2 = {c.AddressTwo}, postalCode = {c.Zip}, phone = {c.Phone}, lastUpdate = CURRENT_TIMESTAMP, lastUpdateBy = {username} " +
-                $"WHERE addressId = (SELECT addressId FROM customer WHERE customerId = {c.CustomerId})";
-
-            string updateCityQuery = $"UPDATE city SET city = {c.City}, lastUpdate = CURRENT_TIMESTAMP, lastUpdateBy = {username} " +
-                $"WHERE cityId = (SELECT cityId FROM address WHERE addressId = (SELECT addressId FROM customer WHERE customerId = {c.CustomerId}))";
-
-            string updateCountryQuery = $"UPDATE country SET country = {c.Country}, lastUpdate = CURRENT_TIMESTAMP, lastUpdateBy = {username} " +
-                $"WHERE countryId = (SELECT countryId FROM city WHERE cityId = (SELECT cityId FROM address WHERE addressId = (SELECT addressId FROM customer WHERE customerId = {c.CustomerId})))";
-
-                //update country
-
-                //update city
-
-                //update address
-
-                //update customer 
+            MySqlCommand cmd = new MySqlCommand(updateCustomerQuery, Database.DBConnection.conn);
+            cmd.ExecuteNonQuery();
         }
+
     }
 }

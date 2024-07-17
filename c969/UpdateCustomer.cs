@@ -18,6 +18,7 @@ namespace c969
         User currentUser;
         int customerID;
         TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+        Customer oldCustomer = new Customer();
 
         public UpdateCustomer(User user, int customerId)
         {
@@ -38,7 +39,7 @@ namespace c969
             {
                 string[] customerInfo = Helper.getCustomerInformation(customerID);
                 string[] nameParts = customerInfo[0].Split(' ');
-                //MessageBox.Show($"{customerInfo[0]} {customerInfo[6]}");
+                
                 firstNameBox.Text = nameParts[0];
                 lastNameBox.Text = nameParts[1];
                 addressBox.Text = customerInfo[1];
@@ -47,6 +48,15 @@ namespace c969
                 postalBox.Text = customerInfo[4];
                 countryBox.Text = customerInfo[5];
                 numberBox.Text = customerInfo[6];
+
+                oldCustomer.CustomerId = customerID;
+                oldCustomer.CustomerName = customerInfo[0];
+                oldCustomer.Address = customerInfo[1];
+                oldCustomer.AddressTwo = customerInfo[2];
+                oldCustomer.City = customerInfo[3];
+                oldCustomer.Zip = customerInfo[4];
+                oldCustomer.Country = customerInfo[5];
+                oldCustomer.Phone = customerInfo[6];
 
             }
             catch (Exception e)
@@ -91,19 +101,31 @@ namespace c969
             else
             {
                 Customer c = new Customer(customerID, fullName, address, addressTwo, city, postalCode, country, phoneNumber);
-                try//-----------------ADD UPDATE HERE
+
+                if (c.CustomerName == oldCustomer.CustomerName && c.Address == oldCustomer.Address && c.AddressTwo == oldCustomer.AddressTwo && c.City == oldCustomer.City
+                    && c.Zip == oldCustomer.Zip && c.Country == oldCustomer.Country && c.Phone == oldCustomer.Phone)
                 {
-                    Helper.updateCustomer(c, currentUser.username);
-
-
+                    MessageBox.Show("No modifications found. Customer was not updated.");
                 }
-                catch (Exception e)
+                else
                 {
-                    MessageBox.Show(e.Message);
+                    try//-----------------ADD UPDATE HERE
+                    {
+
+                        Helper.updateCustomer(c, currentUser.username);
+                        MessageBox.Show("Customer was updated successfully.");
+                        this.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
                 }
 
-                MessageBox.Show("Success!");
             }
         }
+
+   
+ 
     }
 }
