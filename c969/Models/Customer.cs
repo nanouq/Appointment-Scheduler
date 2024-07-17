@@ -10,24 +10,26 @@ namespace c969
     {
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
-        public int AddressId { get; set; }
-        public int Active { get; set; }
-        public string CreateDate { get; set; }
-        public string CreatedBy { get; set; }
-        public string LastUpdate { get; set; }
-        public string LastUpdateBy { get; set; }
+        
+        public string Address {  get; set; }
+        public string AddressTwo {  get; set; }
+        public string City { get; set; }
+        public string Zip { get; set; }
+        public string Country {  get; set; }
+        public string Phone { get; set; }
 
         public Customer() { }
-        public Customer(int customerID, string customerName, int addressID, int active, string createDate, string createdBy, string lastUpdate, string lastUpdatedBy)
+        public Customer(int customerID, string customerName, string address, string addressTwo, string city, string zip, string country, string phone)
         {
             CustomerId = customerID;
             CustomerName = customerName;
-            AddressId = addressID;
-            Active = active;
-            CreateDate = createDate;
-            CreatedBy = createdBy;
-            LastUpdate = lastUpdate;
-            LastUpdateBy = lastUpdatedBy;
+            Address = address;
+            AddressTwo = addressTwo;
+            City = city;
+            Zip = zip;
+            Country = country;
+            Phone = phone;
+      
 
         }
     }
