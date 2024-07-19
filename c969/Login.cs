@@ -66,7 +66,7 @@ namespace c969
                 tw.WriteLine($"{DateTime.Now.ToString()} - {userName} logged in.");
                 tw.Close();
 
-                User newUser = new User(usernameBox.Text, passwordBox.Text);
+                User newUser = new User(userId, usernameBox.Text, passwordBox.Text);
                 Main mainForm = new Main(newUser);
                 this.Hide();
                 mainForm.Show();

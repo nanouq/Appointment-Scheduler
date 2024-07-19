@@ -204,5 +204,18 @@ namespace c969
             cmd.ExecuteNonQuery();
         }
 
+        public static void deleteCustomer(int id)
+        {
+            string query = $"DELETE FROM customer WHERE customerId = {id}";
+
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void addAppointment(Appointment appt)
+        {
+
+        }
+
     }
 }

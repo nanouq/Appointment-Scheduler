@@ -18,8 +18,9 @@ namespace c969.Models
 
         }
 
-        public User(string Username, string Password)
+        public User(int UserId, string Username, string Password)
         {
+            userId = UserId;
             username = Username;
             password = Password;
             active = true;

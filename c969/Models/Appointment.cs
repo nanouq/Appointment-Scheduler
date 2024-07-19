@@ -12,14 +12,14 @@ namespace c969
         public int CustomerId { get; set; }
         public int UserId { get; set; }
         public string Type { get; set; }
-        public DateTime Start {  get; set; }
-        public DateTime End { get; set; }
+        public string Start {  get; set; }
+        public string End { get; set; }
         public DateTime CreateDate {  get; set; }
         public string CreatedBy {  get; set; }
         public DateTime LastUpdate {  get; set; }
         public string LastUpdateBy { get; set;}
 
-        public Appointment(int appointmentID, int customerID, int userID, string type, DateTime start, DateTime end, DateTime createDate, string createdBy, DateTime lastUpdate, string lastUpdateBy) 
+        public Appointment(int appointmentID, int customerID, int userID, string type, string start, string end, DateTime createDate, string createdBy, DateTime lastUpdate, string lastUpdateBy) 
         { 
             AppointmentId = appointmentID;
             CustomerId = customerID;
