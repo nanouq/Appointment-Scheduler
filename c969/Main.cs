@@ -103,6 +103,7 @@ namespace c969
             else
             {
                 new AddAppointment(currentUser).ShowDialog();
+                reloadAppointments();
             }
         }
 

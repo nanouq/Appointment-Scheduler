@@ -212,9 +212,15 @@ namespace c969
             cmd.ExecuteNonQuery();
         }
 
+
         public static void addAppointment(Appointment appt)
         {
+            string insertQuery = $"INSERT INTO appointment (appointmentId, customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                $"VALUES ({appt.AppointmentId}, {appt.CustomerId}, {appt.UserId}, '', '', '', '', '{appt.Type}', '', '{appt.Start}', '{appt.End}', '{appt.CreateDate}', '{appt.CreatedBy}', '{appt.LastUpdate}', '{appt.CreatedBy}')";
+            
+            MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
 
+            insert.ExecuteNonQuery();
         }
 
     }

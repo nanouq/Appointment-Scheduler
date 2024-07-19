@@ -32,12 +32,12 @@ namespace c969
             int appointmentLength = int.Parse(comboLength.SelectedItem.ToString().Split(' ')[0]);
             DateTime endTime = startTime.AddMinutes(appointmentLength);
             int selectedCustomerId = (int)comboCustomers.SelectedValue;
-            DateTime currentTime = DateTime.Now;
+            string currentTime = convertTimeToSQL(DateTime.Now.ToUniversalTime());
 
 
             if (endTime <= startTime)
             {
-                MessageBox.Show("End time must be after start time.", "Invalid Time", MessageBoxButtons.OK);
+                MessageBox.Show("Appointment end time must be after start time.", "Invalid Time", MessageBoxButtons.OK);
             }
             else if (string.IsNullOrEmpty(appointmentType.Text))
             {
@@ -45,17 +45,18 @@ namespace c969
             }
             else if(isAppointmentOverlapping(startTime, endTime, currentUser.userId))
             {
-                MessageBox.Show("Overlapping appointments. Please select a new appointment time.","Overlapping Appointment", MessageBoxButtons.OK);
+                MessageBox.Show($"The selected appointment creates overlapping appointments for {currentUser.username}. Please select a new appointment time.","Overlapping Appointment", MessageBoxButtons.OK);
             }
             else
             {
-                MessageBox.Show($"Appointment is correct. Customer Id is: {selectedCustomerId}");
                 //enter appointment into database
-                Appointment appt = new Appointment(Helper.getNextID("appointmentId","appointment"), selectedCustomerId, currentUser.userId, appointmentType.Text, 
+                Appointment appt = new Appointment(Helper.getNextID("appointmentId","appointment") + 1, selectedCustomerId, currentUser.userId, appointmentType.Text, 
                     convertTimeToSQL(startTime), convertTimeToSQL(endTime), currentTime, currentUser.username, currentTime, currentUser.username);
                 try
                 {
                     Helper.addAppointment(appt);
+                    MessageBox.Show("Appointment made successfully.", "Success", MessageBoxButtons.OK);
+                    this.Close();
                 }
                 catch (Exception ex)
                 {
