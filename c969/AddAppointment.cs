@@ -22,9 +22,9 @@ namespace c969
             InitializeComponent();
             loadCustomers();
             loadAppointmentLengths();
-            updateEndTime();
-            currentUser = user;
             dtp1.Value = DateTime.Now;
+            updateEndTime();
+            currentUser = user;           
         }
 
         private void submitButton_Click(object sender, EventArgs e)
@@ -38,23 +38,22 @@ namespace c969
 
             if (endTime <= startTime)
             {
-                MessageBox.Show("Appointment end time must be after start time.", "Invalid Time", MessageBoxButtons.OK);
+                MessageBox.Show("Appointment end time must be after start time.", "Invalid Time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else if (string.IsNullOrEmpty(appointmentType.Text))
             {
-                MessageBox.Show("Please enter an appointment type.", "Invalid Appointment", MessageBoxButtons.OK);
+                MessageBox.Show("Please enter an appointment type.", "Invalid Appointment", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else if(isAppointmentOverlapping(startTime, endTime, currentUser.userId))
             {
-                MessageBox.Show($"The selected appointment creates overlapping appointments for {currentUser.username}. Please select a new appointment time.","Overlapping Appointment", MessageBoxButtons.OK);
+                MessageBox.Show($"The selected appointment creates overlapping appointments for {currentUser.username}. Please select a new appointment time.","Overlapping Appointment", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else if (!isValidAppointmentTime(startTime) || !isValidAppointmentTime(endTime))
             {
-                MessageBox.Show("Appointments can only be scheduled Mon-Fri, 9AM to 5PM. Please choose a different time.", "Invalid Appointment", MessageBoxButtons.OK);
+                MessageBox.Show("Appointments can only be scheduled Mon-Fri, 9AM to 5PM. Please choose a different time.", "Invalid Appointment", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
-                //enter appointment into database
                 Appointment appt = new Appointment(Helper.getNextID("appointmentId","appointment") + 1, selectedCustomerId, currentUser.userId, appointmentType.Text.Trim(), 
                     convertTimeToSQL(startTime), convertTimeToSQL(endTime), currentTime, currentUser.username, currentTime, currentUser.username);
                 try
@@ -84,7 +83,6 @@ namespace c969
 
         private bool isValidAppointmentTime(DateTime time)
         {
-            //convert to EST
             TimeZoneInfo est = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
             DateTime estTime = TimeZoneInfo.ConvertTime(time, est);
 
@@ -92,8 +90,6 @@ namespace c969
             {
                 return false;
             }
-
-            //check for mon-fri
 
             if (estTime.DayOfWeek < DayOfWeek.Monday || estTime.DayOfWeek > DayOfWeek.Friday)
             {
@@ -123,6 +119,12 @@ namespace c969
             comboCustomers.Format += new ListControlConvertEventHandler(comboCustomers_Format);
         }
 
+        private void comboCustomers_Format(object sender, ListControlConvertEventArgs e)
+        {
+            DataRowView row = (DataRowView)e.ListItem;
+            e.Value = $"{row["customerId"]} - {row["customerName"]}";
+        }
+
         private void loadAppointmentLengths()
         {
             comboLength.Items.Clear();
@@ -138,12 +140,6 @@ namespace c969
             }
         }
 
-        private void comboCustomers_Format(object sender, ListControlConvertEventArgs e)
-        {
-            DataRowView row = (DataRowView)e.ListItem;
-            e.Value = $"{row["customerId"]} - {row["customerName"]}";
-        }
-
         private void comboLength_SelectedIndexChanged(object sender, EventArgs e)
         {
             updateEndTime();
@@ -156,9 +152,6 @@ namespace c969
 
         private bool isAppointmentOverlapping(DateTime startTime, DateTime endTime, int userId)
         {
-            //am I counting overlapping appointments only for one user or ALL appointments?
-            //for user:
-
             string convertedStart = convertTimeToSQL(startTime);
             string convertedEnd = convertTimeToSQL(endTime);
 
