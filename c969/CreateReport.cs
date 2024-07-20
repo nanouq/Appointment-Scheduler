@@ -89,7 +89,7 @@ namespace c969
 
         private void customerAppointmentHistory()
         {
-            //THIRD REPORT
+            //Generates the number of appointment types each customer has scheduled, incorporating a lambda expression
             string username = comboReport.SelectedItem.ToString().Split(' ')[0];
 
             var report = appointments
@@ -110,6 +110,7 @@ namespace c969
 
         private void userSchedule()
         {
+            //Generates the schedule for each user in the DB, incorporating a lambda expression
             string username = comboReport.SelectedItem.ToString().Split(' ')[0];
 
             var userScheduleReport = appointments
@@ -131,6 +132,7 @@ namespace c969
 
         private void appointmentsByMonth()
         {
+            //Generates the number of appointment types by month, incorporating a lambda expression
             var appointmentTypesByMonth = appointments
                 .GroupBy(a => new { a.dtStart.Year, a.dtStart.Month, a.Type })
                 .Select(g => new
@@ -143,8 +145,6 @@ namespace c969
 
             dgv.DataSource = appointmentTypesByMonth;
             dgv.Columns["Count"].HeaderText = "Number of appointments";
-
-
         }
     }
 }
