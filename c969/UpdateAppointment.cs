@@ -17,7 +17,6 @@ namespace c969
         User currentUser;
         int currentAppointmentId;
         Appointment oldAppointment = new Appointment();
-        Appointment newAppointment = new Appointment();
         public UpdateAppointment(User user, int appointmentId)
         {
             InitializeComponent();

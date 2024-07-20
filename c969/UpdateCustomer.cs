@@ -86,17 +86,14 @@ namespace c969
             string phoneNumber = numberBox.Text.Trim();
             string fullName = $"{firstName} {lastName}";
 
-
-            //1st check
-            //check if all fields are filled out
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(address) || string.IsNullOrEmpty(city) ||
                 string.IsNullOrEmpty(postalCode) || string.IsNullOrEmpty(country) || string.IsNullOrEmpty(phoneNumber))
             {
-                MessageBox.Show("Please fill out all required fields.");
+                MessageBox.Show("Please fill out all required fields.", "Missing entry", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            else if (match.Success == false) //2nd check, phone number field validation
+            else if (match.Success == false)
             {
-                MessageBox.Show("Please enter a valid phone number.");
+                MessageBox.Show("Please enter a valid phone number.", "Invalid Phone Number", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             else
             {
@@ -105,11 +102,11 @@ namespace c969
                 if (c.CustomerName == oldCustomer.CustomerName && c.Address == oldCustomer.Address && c.AddressTwo == oldCustomer.AddressTwo && c.City == oldCustomer.City
                     && c.Zip == oldCustomer.Zip && c.Country == oldCustomer.Country && c.Phone == oldCustomer.Phone)
                 {
-                    MessageBox.Show("No modifications found. Customer was not updated.");
+                    MessageBox.Show("No modifications found. Customer was not updated.", "No Changes Made", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    try//-----------------ADD UPDATE HERE
+                    try
                     {
 
                         Helper.updateCustomer(c, currentUser.username);
@@ -121,11 +118,7 @@ namespace c969
                         MessageBox.Show(e.Message);
                     }
                 }
-
             }
         }
-
-   
- 
     }
 }
