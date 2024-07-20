@@ -41,13 +41,12 @@ namespace c969
             int cityId = createCity(c, username);
             int addressId = getNextID("addressId", "address");
 
-            //check to see if there is already an existing combination
             string query = $"SELECT addressId FROM address WHERE address = '{c.Address}' AND address2 = '{c.AddressTwo}' " +
                 $"AND cityId = '{cityId}' AND postalCode = '{c.Zip}' AND phone = '{c.Phone}'";
             MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
             MySqlDataReader reader = cmd.ExecuteReader();
 
-            if (reader.HasRows) //the combination of address, city, and postal code exists
+            if (reader.HasRows)
             {
                 reader.Read();
                 addressId = reader.GetInt32(0);
@@ -56,8 +55,6 @@ namespace c969
             }
             reader.Close();
 
-
-            //if the combination doesnt exist yet 
             string insertQuery = $"INSERT into address (addressId, address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) " +
                     $"VALUES ('{addressId}', '{c.Address}', '{c.AddressTwo}', '{cityId}', '{c.Zip}', '{c.Phone}', CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
 
@@ -72,13 +69,11 @@ namespace c969
             int countryId = createCountry(c, username);
             int cityId = 0;
 
-            //check if city already exists
-
             string query = $"SELECT cityId FROM city WHERE city = '{c.City}' AND countryId = '{countryId}'";
             MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
             MySqlDataReader reader = cmd.ExecuteReader();
 
-            if (reader.HasRows) //the combination of city and country exist already
+            if (reader.HasRows)
             {
                 reader.Read();
                 cityId = reader.GetInt32(0);
@@ -86,7 +81,7 @@ namespace c969
             }
             reader.Close();
 
-            if (cityId == 0) //the combination of city and country does not exist yet
+            if (cityId == 0)
             {
 
                 cityId = getNextID("cityId", "city");
