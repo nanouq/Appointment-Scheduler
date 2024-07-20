@@ -206,7 +206,53 @@ namespace c969
 
         public static void deleteCustomer(int id)
         {
+            //find any appointments with this customerId
+            List<int> appointmentIds = new List<int>();
+            string appointmentsQuery = $"SELECT appointmentId FROM appointment WHERE customerId = {id}";
+            MySqlCommand cmd1 = new MySqlCommand(appointmentsQuery, Database.DBConnection.conn);
+            MySqlDataReader reader = cmd1.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int appointmentId = reader.GetInt32("appointmentId");
+                appointmentIds.Add(appointmentId);
+            }
+            reader.Close();
+
+            //delete any appointments with this customerId
+            if (appointmentIds.Count > 0)
+            {
+                string deleteQuery = "DELETE FROM appointment WHERE appointmentId = @appointmentId";
+                MySqlTransaction transaction = null;
+                MySqlCommand cmd2 = new MySqlCommand(deleteQuery, Database.DBConnection.conn);
+                try
+                {
+                    transaction = Database.DBConnection.conn.BeginTransaction();
+                    cmd2.Transaction = transaction;
+                    foreach (int appointmentId in appointmentIds)
+                    {
+                        cmd2.Parameters.Clear();
+                        cmd2.Parameters.AddWithValue("@appointmentId", appointmentId);
+                        cmd2.ExecuteNonQuery();
+                    }
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+            }
+
+            //delete customer from customer
             string query = $"DELETE FROM customer WHERE customerId = {id}";
+
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void deleteAppointment(int id)
+        {
+            string query = $"DELETE FROM appointment WHERE appointmentId = {id}";
 
             MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
             cmd.ExecuteNonQuery();
@@ -221,6 +267,42 @@ namespace c969
             MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
 
             insert.ExecuteNonQuery();
+        }
+
+        public static Appointment getAppointmentDetails(int appointmentId)
+        {
+            Appointment appt = new Appointment();
+
+            string query = $"SELECT appointmentId, customerId, userId, type, start, end, createDate, createdBy, lastUpdate, lastUpdateBy FROM appointment WHERE appointmentId = {appointmentId}";
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                appt.AppointmentId = reader.GetInt32(0);
+                appt.CustomerId = reader.GetInt32(1);
+                appt.UserId = reader.GetInt32(2);
+                appt.Type = reader.GetString(3);
+                appt.Start = reader.GetDateTime(4).ToString();
+                appt.End = reader.GetDateTime(5).ToString();
+                appt.CreateDate = reader.GetDateTime(6).ToString();
+                appt.CreatedBy = reader.GetString(7);
+                appt.LastUpdate = reader.GetDateTime(8).ToString();
+                appt.LastUpdateBy = reader.GetString(9);
+                reader.Close();
+            }
+            reader.Close();
+            return appt;
+        }
+
+        public static void updateAppointment(Appointment apt)
+        {
+            string updateQuery = $"UPDATE appointment SET userId = {apt.UserId}, type = '{apt.Type}', start = '{apt.Start}', end = '{apt.End}', lastUpdate = CURRENT_TIMESTAMP, lastUpdateBy = '{apt.UserId}' " +
+                $"WHERE appointmentId = {apt.AppointmentId}";
+
+            MySqlCommand cmd = new MySqlCommand(updateQuery, Database.DBConnection.conn);
+            cmd.ExecuteNonQuery();
+
         }
 
     }

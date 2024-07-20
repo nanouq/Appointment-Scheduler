@@ -18,6 +18,39 @@ namespace c969
         public string CreatedBy {  get; set; }
         public string LastUpdate {  get; set; }
         public string LastUpdateBy { get; set;}
+        public string CustomerName {  get; set; }
+        public string Username {  get; set; }
+        public DateTime dtStart {  get; set; }
+        public DateTime dtEnd {  get; set; }
+
+
+        public Appointment()
+        {
+
+        }
+        public Appointment(string type, DateTime start)
+        {
+            Type = type;
+            dtStart = start;
+        }
+
+        public Appointment(string customerName, string type, DateTime start)
+        {
+            CustomerName = customerName; 
+            Type = type;
+            dtStart = start;
+        }
+
+        public Appointment(int appointmentId, string type, string customerName, DateTime start, DateTime end, string username)
+        {
+            AppointmentId = appointmentId;
+            Type = type;
+            CustomerName = customerName;
+            dtStart = start;
+            dtEnd = end;
+            Username = username;
+            
+        }
 
         public Appointment(int appointmentID, int customerID, int userID, string type, string start, string end, string createDate, string createdBy, string lastUpdate, string lastUpdateBy) 
         { 

@@ -37,6 +37,7 @@ namespace c969
                 currentLabel.Text = "Localisation actuelle:";
                 this.Text = "Se connecter";
                 errorMessage = "Les informations d'identification invalides.";
+                closeButton.Text = "Fermer";
             }
         }
 
@@ -59,7 +60,7 @@ namespace c969
                 userId = Convert.ToInt32(reader[0]);
                 userName = usernameBox.Text;
                 reader.Close();
-                MessageBox.Show("User " + userName + " was found. Their id is " + userId);
+                MessageBox.Show($"{userName} successfully logged in.");
 
                 //Write to Login_History file located in Bin folder
                 TextWriter tw = new StreamWriter(filePath,true);
@@ -76,6 +77,16 @@ namespace c969
                 MessageBox.Show(errorMessage);
                 reader.Close();
             }
+        }
+
+        private void locationLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

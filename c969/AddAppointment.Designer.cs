@@ -186,6 +186,8 @@
             this.Controls.Add(this.dtp2);
             this.Controls.Add(this.dtp1);
             this.Controls.Add(this.label9);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "AddAppointment";
             this.Text = "Add Appointment";
             this.ResumeLayout(false);

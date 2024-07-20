@@ -36,13 +36,14 @@
             this.loginLabel = new System.Windows.Forms.Label();
             this.currentLabel = new System.Windows.Forms.Label();
             this.locationLabel = new System.Windows.Forms.Label();
+            this.closeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(103, 200);
+            this.loginButton.Location = new System.Drawing.Point(150, 200);
             this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(75, 23);
+            this.loginButton.Size = new System.Drawing.Size(67, 38);
             this.loginButton.TabIndex = 0;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
@@ -85,7 +86,7 @@
             // 
             this.loginLabel.AutoSize = true;
             this.loginLabel.Font = new System.Drawing.Font("Georgia", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.loginLabel.Location = new System.Drawing.Point(100, 25);
+            this.loginLabel.Location = new System.Drawing.Point(63, 22);
             this.loginLabel.Name = "loginLabel";
             this.loginLabel.Size = new System.Drawing.Size(83, 31);
             this.loginLabel.TabIndex = 5;
@@ -94,7 +95,7 @@
             // currentLabel
             // 
             this.currentLabel.AutoSize = true;
-            this.currentLabel.Location = new System.Drawing.Point(68, 168);
+            this.currentLabel.Location = new System.Drawing.Point(66, 158);
             this.currentLabel.Name = "currentLabel";
             this.currentLabel.Size = new System.Drawing.Size(88, 13);
             this.currentLabel.TabIndex = 6;
@@ -103,17 +104,29 @@
             // locationLabel
             // 
             this.locationLabel.AutoSize = true;
-            this.locationLabel.Location = new System.Drawing.Point(169, 168);
+            this.locationLabel.Location = new System.Drawing.Point(66, 176);
             this.locationLabel.Name = "locationLabel";
             this.locationLabel.Size = new System.Drawing.Size(48, 13);
             this.locationLabel.TabIndex = 7;
             this.locationLabel.Text = "Location";
+            this.locationLabel.Click += new System.EventHandler(this.locationLabel_Click);
+            // 
+            // closeButton
+            // 
+            this.closeButton.Location = new System.Drawing.Point(69, 200);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(64, 38);
+            this.closeButton.TabIndex = 8;
+            this.closeButton.Text = "Close";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.closeButton);
             this.Controls.Add(this.locationLabel);
             this.Controls.Add(this.currentLabel);
             this.Controls.Add(this.loginLabel);
@@ -122,6 +135,8 @@
             this.Controls.Add(this.passwordBox);
             this.Controls.Add(this.usernameBox);
             this.Controls.Add(this.loginButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Login";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -140,6 +155,7 @@
         private System.Windows.Forms.Label loginLabel;
         private System.Windows.Forms.Label currentLabel;
         private System.Windows.Forms.Label locationLabel;
+        private System.Windows.Forms.Button closeButton;
     }
 }
 

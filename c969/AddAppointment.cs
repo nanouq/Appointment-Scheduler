@@ -16,6 +16,7 @@ namespace c969
     public partial class AddAppointment : Form
     {
         User currentUser;
+        TimeZoneInfo currentTimeZone = TimeZoneInfo.Local;
         public AddAppointment(User user)
         {
             InitializeComponent();
@@ -23,12 +24,12 @@ namespace c969
             loadAppointmentLengths();
             updateEndTime();
             currentUser = user;
+            dtp1.Value = DateTime.Now;
         }
 
         private void submitButton_Click(object sender, EventArgs e)
         {
             DateTime startTime = dtp1.Value;
-            //DateTime endTime = dtp2.Value;
             int appointmentLength = int.Parse(comboLength.SelectedItem.ToString().Split(' ')[0]);
             DateTime endTime = startTime.AddMinutes(appointmentLength);
             int selectedCustomerId = (int)comboCustomers.SelectedValue;
@@ -47,10 +48,14 @@ namespace c969
             {
                 MessageBox.Show($"The selected appointment creates overlapping appointments for {currentUser.username}. Please select a new appointment time.","Overlapping Appointment", MessageBoxButtons.OK);
             }
+            else if (!isValidAppointmentTime(startTime) || !isValidAppointmentTime(endTime))
+            {
+                MessageBox.Show("Appointments can only be scheduled Mon-Fri, 9AM to 5PM. Please choose a different time.", "Invalid Appointment", MessageBoxButtons.OK);
+            }
             else
             {
                 //enter appointment into database
-                Appointment appt = new Appointment(Helper.getNextID("appointmentId","appointment") + 1, selectedCustomerId, currentUser.userId, appointmentType.Text, 
+                Appointment appt = new Appointment(Helper.getNextID("appointmentId","appointment") + 1, selectedCustomerId, currentUser.userId, appointmentType.Text.Trim(), 
                     convertTimeToSQL(startTime), convertTimeToSQL(endTime), currentTime, currentUser.username, currentTime, currentUser.username);
                 try
                 {

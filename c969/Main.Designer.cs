@@ -39,12 +39,12 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.appointmentsButton = new System.Windows.Forms.Button();
             this.reportButton = new System.Windows.Forms.Button();
-            this.allAppointmentsButton = new System.Windows.Forms.RadioButton();
-            this.monthAppointmentsButton = new System.Windows.Forms.RadioButton();
-            this.weekAppointmentsButton = new System.Windows.Forms.RadioButton();
+            this.allButton = new System.Windows.Forms.RadioButton();
+            this.monthButton = new System.Windows.Forms.RadioButton();
+            this.weekButton = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.appointmentCalendar = new System.Windows.Forms.MonthCalendar();
-            this.dayAppointmentsButton = new System.Windows.Forms.RadioButton();
+            this.dayButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.appointmentView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -165,43 +165,47 @@
             this.reportButton.TabIndex = 15;
             this.reportButton.Text = "Create Report";
             this.reportButton.UseVisualStyleBackColor = true;
+            this.reportButton.Click += new System.EventHandler(this.reportButton_Click);
             // 
-            // allAppointmentsButton
+            // allButton
             // 
-            this.allAppointmentsButton.AutoSize = true;
-            this.allAppointmentsButton.BackColor = System.Drawing.Color.LightGray;
-            this.allAppointmentsButton.Checked = true;
-            this.allAppointmentsButton.Location = new System.Drawing.Point(184, 35);
-            this.allAppointmentsButton.Name = "allAppointmentsButton";
-            this.allAppointmentsButton.Size = new System.Drawing.Size(36, 17);
-            this.allAppointmentsButton.TabIndex = 9;
-            this.allAppointmentsButton.TabStop = true;
-            this.allAppointmentsButton.Text = "All";
-            this.allAppointmentsButton.UseVisualStyleBackColor = false;
+            this.allButton.AutoSize = true;
+            this.allButton.BackColor = System.Drawing.Color.LightGray;
+            this.allButton.Checked = true;
+            this.allButton.Location = new System.Drawing.Point(184, 35);
+            this.allButton.Name = "allButton";
+            this.allButton.Size = new System.Drawing.Size(36, 17);
+            this.allButton.TabIndex = 9;
+            this.allButton.TabStop = true;
+            this.allButton.Text = "All";
+            this.allButton.UseVisualStyleBackColor = false;
+            this.allButton.CheckedChanged += new System.EventHandler(this.allButton_CheckedChanged);
             // 
-            // monthAppointmentsButton
+            // monthButton
             // 
-            this.monthAppointmentsButton.AutoSize = true;
-            this.monthAppointmentsButton.BackColor = System.Drawing.Color.LightGray;
-            this.monthAppointmentsButton.Location = new System.Drawing.Point(123, 35);
-            this.monthAppointmentsButton.Name = "monthAppointmentsButton";
-            this.monthAppointmentsButton.Size = new System.Drawing.Size(55, 17);
-            this.monthAppointmentsButton.TabIndex = 11;
-            this.monthAppointmentsButton.TabStop = true;
-            this.monthAppointmentsButton.Text = "Month";
-            this.monthAppointmentsButton.UseVisualStyleBackColor = false;
+            this.monthButton.AutoSize = true;
+            this.monthButton.BackColor = System.Drawing.Color.LightGray;
+            this.monthButton.Location = new System.Drawing.Point(123, 35);
+            this.monthButton.Name = "monthButton";
+            this.monthButton.Size = new System.Drawing.Size(55, 17);
+            this.monthButton.TabIndex = 11;
+            this.monthButton.TabStop = true;
+            this.monthButton.Text = "Month";
+            this.monthButton.UseVisualStyleBackColor = false;
+            this.monthButton.CheckedChanged += new System.EventHandler(this.monthButton_CheckedChanged);
             // 
-            // weekAppointmentsButton
+            // weekButton
             // 
-            this.weekAppointmentsButton.AutoSize = true;
-            this.weekAppointmentsButton.BackColor = System.Drawing.Color.LightGray;
-            this.weekAppointmentsButton.Location = new System.Drawing.Point(63, 35);
-            this.weekAppointmentsButton.Name = "weekAppointmentsButton";
-            this.weekAppointmentsButton.Size = new System.Drawing.Size(54, 17);
-            this.weekAppointmentsButton.TabIndex = 10;
-            this.weekAppointmentsButton.TabStop = true;
-            this.weekAppointmentsButton.Text = "Week";
-            this.weekAppointmentsButton.UseVisualStyleBackColor = false;
+            this.weekButton.AutoSize = true;
+            this.weekButton.BackColor = System.Drawing.Color.LightGray;
+            this.weekButton.Location = new System.Drawing.Point(63, 35);
+            this.weekButton.Name = "weekButton";
+            this.weekButton.Size = new System.Drawing.Size(54, 17);
+            this.weekButton.TabIndex = 10;
+            this.weekButton.TabStop = true;
+            this.weekButton.Text = "Week";
+            this.weekButton.UseVisualStyleBackColor = false;
+            this.weekButton.CheckedChanged += new System.EventHandler(this.weekButton_CheckedChanged);
             // 
             // label3
             // 
@@ -219,32 +223,34 @@
             this.appointmentCalendar.Location = new System.Drawing.Point(12, 62);
             this.appointmentCalendar.Name = "appointmentCalendar";
             this.appointmentCalendar.TabIndex = 16;
+            this.appointmentCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.appointmentCalendar_DateChanged);
             // 
-            // dayAppointmentsButton
+            // dayButton
             // 
-            this.dayAppointmentsButton.AutoSize = true;
-            this.dayAppointmentsButton.BackColor = System.Drawing.Color.LightGray;
-            this.dayAppointmentsButton.Location = new System.Drawing.Point(13, 35);
-            this.dayAppointmentsButton.Name = "dayAppointmentsButton";
-            this.dayAppointmentsButton.Size = new System.Drawing.Size(44, 17);
-            this.dayAppointmentsButton.TabIndex = 17;
-            this.dayAppointmentsButton.TabStop = true;
-            this.dayAppointmentsButton.Text = "Day";
-            this.dayAppointmentsButton.UseVisualStyleBackColor = false;
+            this.dayButton.AutoSize = true;
+            this.dayButton.BackColor = System.Drawing.Color.LightGray;
+            this.dayButton.Location = new System.Drawing.Point(13, 35);
+            this.dayButton.Name = "dayButton";
+            this.dayButton.Size = new System.Drawing.Size(44, 17);
+            this.dayButton.TabIndex = 17;
+            this.dayButton.TabStop = true;
+            this.dayButton.Text = "Day";
+            this.dayButton.UseVisualStyleBackColor = false;
+            this.dayButton.CheckedChanged += new System.EventHandler(this.dayButton_CheckedChanged);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(999, 517);
-            this.Controls.Add(this.dayAppointmentsButton);
+            this.Controls.Add(this.dayButton);
             this.Controls.Add(this.appointmentCalendar);
             this.Controls.Add(this.reportButton);
             this.Controls.Add(this.appointmentsButton);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.monthAppointmentsButton);
-            this.Controls.Add(this.weekAppointmentsButton);
-            this.Controls.Add(this.allAppointmentsButton);
+            this.Controls.Add(this.monthButton);
+            this.Controls.Add(this.weekButton);
+            this.Controls.Add(this.allButton);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.mainText);
@@ -254,6 +260,8 @@
             this.Controls.Add(this.customerButton);
             this.Controls.Add(this.appointmentView);
             this.Controls.Add(this.splitter1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "Scheduler";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
@@ -277,11 +285,11 @@
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Button appointmentsButton;
         private System.Windows.Forms.Button reportButton;
-        private System.Windows.Forms.RadioButton allAppointmentsButton;
-        private System.Windows.Forms.RadioButton monthAppointmentsButton;
-        private System.Windows.Forms.RadioButton weekAppointmentsButton;
+        private System.Windows.Forms.RadioButton allButton;
+        private System.Windows.Forms.RadioButton monthButton;
+        private System.Windows.Forms.RadioButton weekButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.MonthCalendar appointmentCalendar;
-        private System.Windows.Forms.RadioButton dayAppointmentsButton;
+        private System.Windows.Forms.RadioButton dayButton;
     }
 }
