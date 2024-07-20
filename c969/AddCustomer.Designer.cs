@@ -127,7 +127,6 @@
             this.firstNameBox.Name = "firstNameBox";
             this.firstNameBox.Size = new System.Drawing.Size(125, 20);
             this.firstNameBox.TabIndex = 8;
-            this.firstNameBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // lastNameBox
             // 
@@ -135,7 +134,6 @@
             this.lastNameBox.Name = "lastNameBox";
             this.lastNameBox.Size = new System.Drawing.Size(125, 20);
             this.lastNameBox.TabIndex = 9;
-            this.lastNameBox.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // addressBox
             // 

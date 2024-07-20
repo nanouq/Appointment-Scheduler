@@ -12,13 +12,102 @@ namespace c969
 {
     public class Helper
     {
-        //creates a country in database or returns ID of existing country
-        public static int createCountry(string countryName, string username)
+        public static bool createCustomer(Customer c, string username)
         {
-            //check if the country already exists
+            int addressId = createAddress(c, username);
+
+            string query = $"SELECT customerId FROM customer WHERE customerName = '{c.CustomerName}' AND addressId = '{addressId}'";
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                reader.Read();
+                reader.Close();
+                return false;
+            }
+            reader.Close();
+
+            string insertQuery = $"INSERT into customer (customerId, customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    $"VALUES ('{c.CustomerId}', '{c.CustomerName}', '{addressId}', 1, CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
+            MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
+            insert.ExecuteNonQuery();
+
+            return true;
+        }
+
+        public static int createAddress(Customer c, string username)
+        {
+            int cityId = createCity(c, username);
+            int addressId = getNextID("addressId", "address");
+
+            //check to see if there is already an existing combination
+            string query = $"SELECT addressId FROM address WHERE address = '{c.Address}' AND address2 = '{c.AddressTwo}' " +
+                $"AND cityId = '{cityId}' AND postalCode = '{c.Zip}' AND phone = '{c.Phone}'";
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows) //the combination of address, city, and postal code exists
+            {
+                reader.Read();
+                addressId = reader.GetInt32(0);
+                reader.Close();
+                return addressId;
+            }
+            reader.Close();
+
+
+            //if the combination doesnt exist yet 
+            string insertQuery = $"INSERT into address (addressId, address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    $"VALUES ('{addressId}', '{c.Address}', '{c.AddressTwo}', '{cityId}', '{c.Zip}', '{c.Phone}', CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
+
+            MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
+            insert.ExecuteNonQuery();
+
+            return addressId;
+        }
+
+        public static int createCity(Customer c, string username)
+        {
+            int countryId = createCountry(c, username);
+            int cityId = 0;
+
+            //check if city already exists
+
+            string query = $"SELECT cityId FROM city WHERE city = '{c.City}' AND countryId = '{countryId}'";
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows) //the combination of city and country exist already
+            {
+                reader.Read();
+                cityId = reader.GetInt32(0);
+                reader.Close();
+            }
+            reader.Close();
+
+            if (cityId == 0) //the combination of city and country does not exist yet
+            {
+
+                cityId = getNextID("cityId", "city");
+
+                string insertQuery = $"INSERT into city (cityId, city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                    $"VALUES ('{cityId}', '{c.City}', '{countryId}', CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
+
+                MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
+
+                insert.ExecuteNonQuery();
+                return cityId;
+            }
+
+            return cityId;
+        }
+
+        public static int createCountry(Customer c, string username)
+        {
             int countryId = 0;
             
-            string query = $"SELECT countryId FROM country WHERE country = '{countryName}'";
+            string query = $"SELECT countryId FROM country WHERE country = '{c.Country}'";
             MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
             MySqlDataReader reader = cmd.ExecuteReader();
             if (reader.HasRows)
@@ -29,13 +118,12 @@ namespace c969
             }
             reader.Close();
 
-            if (countryId == 0) //the country doesnt exist yet
+            if (countryId == 0)
             {
-            
-                countryId = getNextID("countryId", "country") + 1;
+                countryId = getNextID("countryId", "country");
                 
                 string insertQuery = $"INSERT into country (countryId, country, createDate, createdBy, lastUpdate, lastUpdateBy) " +
-                    $"VALUES ('{countryId}', '{countryName}', CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
+                    $"VALUES ('{countryId}', '{c.Country}', CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
 
                 MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
   
@@ -63,116 +151,15 @@ namespace c969
                 }
                 nextId = reader.GetInt32(0);
                 reader.Close();
-                return nextId;
+                return nextId + 1;
             }
             reader.Close();
             return 0;
         }
 
-        public static bool createCustomer(string firstName, string lastName, string address, string addressTwo, string city, string postalCode, string country, string phoneNumber, string username)
-        {
-            int addressId = createAddress(address, addressTwo, city, postalCode, country, phoneNumber, username);
-            string fullName = $"{firstName} {lastName}";
-            int customerId = 0;
-
-            //check to see if the customer is already in the database
-            string query = $"SELECT customerId FROM customer WHERE customerName = '{fullName}' AND addressId = '{addressId}'";
-            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
-            MySqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.HasRows) //the combination of name and address exist already
-            {
-                reader.Read();
-                customerId = reader.GetInt32(0);
-                reader.Close();
-                return false;
-            }
-            reader.Close();
-
-            customerId = getNextID("customerId","customer") + 1;
-            //if the combination doesnt exist yet 
-            string insertQuery = $"INSERT into customer (customerId, customerName, addressId, active, createDate, createdBy, lastUpdate, lastUpdateBy) " +
-                    $"VALUES ('{customerId}', '{fullName}', '{addressId}', 1, CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
-
-            MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
-
-            insert.ExecuteNonQuery();
-
-            return true;
-        }
-
-        public static int createAddress(string address, string addressTwo, string city, string postalCode, string country, string phoneNumber, string username)
-        {
-            int cityId = createCity(city, country, username);
-            int addressId = getNextID("addressId","address") + 1;
-
-            //check to see if there is already an existing combination
-            string query = $"SELECT addressId FROM address WHERE address = '{address}' AND address2 = '{addressTwo}' " +
-                $"AND cityId = '{cityId}' AND postalCode = '{postalCode}' AND phone = '{phoneNumber}'";
-            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
-            MySqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.HasRows) //the combination of address, city, and postal code exists
-            {
-                reader.Read();
-                addressId = reader.GetInt32(0);
-                reader.Close();
-                return addressId;
-            }
-            reader.Close();
-            
-
-            //if the combination doesnt exist yet 
-            string insertQuery = $"INSERT into address (addressId, address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, lastUpdateBy) " +
-                    $"VALUES ('{addressId}', '{address}', '{addressTwo}', '{cityId}', '{postalCode}', '{phoneNumber}', CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
-
-            MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
-
-            insert.ExecuteNonQuery();
-
-            return addressId;
-        }
-
-        public static int createCity(string city, string country, string username)
-        {
-            int countryId = createCountry(country, username);
-            int cityId = 0;
-
-            //check if city already exists
-            
-            string query = $"SELECT cityId FROM city WHERE city = '{city}' AND countryId = '{countryId}'";
-            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
-            MySqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.HasRows) //the combination of city and country exist already
-            {
-                reader.Read();
-                cityId = reader.GetInt32(0);
-                reader.Close();
-            }
-            reader.Close();
-
-            if (cityId == 0) //the combination of city and country does not exist yet
-            {
-            
-                cityId = getNextID("cityId", "city") + 1;
-
-                string insertQuery = $"INSERT into city (cityId, city, countryId, createDate, createdBy, lastUpdate, lastUpdateBy) " +
-                    $"VALUES ('{cityId}', '{city}', '{countryId}', CURRENT_TIMESTAMP, '{username}', CURRENT_TIMESTAMP, '{username}')";
-
-                MySqlCommand insert = new MySqlCommand(insertQuery, Database.DBConnection.conn);
-
-                insert.ExecuteNonQuery();
-                return cityId;
-            }
-            
-            return cityId;
-        }
-
         public static string[] getCustomerInformation(int id)
         {
             string[] customerInfo = new string[7];
-
 
             string query = $"SELECT c.customerName, a.address, a.address2, ci.city, a.postalCode, co.country, a.phone FROM customer c " +
                 $"JOIN address a ON c.addressId = a.addressId JOIN city ci ON a.cityId = ci.cityId JOIN country co ON ci.countryId = co.countryId WHERE customerId = {id}";
@@ -187,7 +174,6 @@ namespace c969
                     customerInfo[i] = reader[i].ToString();
                 }
                 reader.Close();
-                Console.WriteLine("ROW WAS FOUND");
             }
             reader.Close();
 
@@ -196,7 +182,7 @@ namespace c969
 
         public static void updateCustomer(Customer c, string username)
         {
-            int addressId = createAddress(c.Address, c.AddressTwo, c.City, c.Zip, c.Country, c.Phone, username);
+            int addressId = createAddress(c, username);
 
             string updateCustomerQuery = $"UPDATE customer SET customerName = '{c.CustomerName}', addressId = {addressId}, lastUpdate = CURRENT_TIMESTAMP, lastUpdateBy = '{username}' WHERE customerId = {c.CustomerId}";
 
@@ -206,7 +192,6 @@ namespace c969
 
         public static void deleteCustomer(int id)
         {
-            //find any appointments with this customerId
             List<int> appointmentIds = new List<int>();
             string appointmentsQuery = $"SELECT appointmentId FROM appointment WHERE customerId = {id}";
             MySqlCommand cmd1 = new MySqlCommand(appointmentsQuery, Database.DBConnection.conn);
@@ -219,7 +204,6 @@ namespace c969
             }
             reader.Close();
 
-            //delete any appointments with this customerId
             if (appointmentIds.Count > 0)
             {
                 string deleteQuery = "DELETE FROM appointment WHERE appointmentId = @appointmentId";
@@ -243,7 +227,6 @@ namespace c969
                 }
             }
 
-            //delete customer from customer
             string query = $"DELETE FROM customer WHERE customerId = {id}";
 
             MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);

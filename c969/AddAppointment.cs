@@ -54,7 +54,7 @@ namespace c969
             }
             else
             {
-                Appointment appt = new Appointment(Helper.getNextID("appointmentId","appointment") + 1, selectedCustomerId, currentUser.userId, appointmentType.Text.Trim(), 
+                Appointment appt = new Appointment(Helper.getNextID("appointmentId","appointment"), selectedCustomerId, currentUser.userId, appointmentType.Text.Trim(), 
                     convertTimeToSQL(startTime), convertTimeToSQL(endTime), currentTime, currentUser.username, currentTime, currentUser.username);
                 try
                 {

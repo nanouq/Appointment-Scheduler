@@ -204,7 +204,6 @@ namespace c969
                 MessageBox.Show(count.ToString());
                 return count > 0;
             }
-
         }
     }
 }
