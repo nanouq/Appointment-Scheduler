@@ -14,11 +14,36 @@ namespace c969
     public partial class CreateReport : Form
     {
         TimeZoneInfo localZone = TimeZoneInfo.Local;
+        List<Appointment> appointments = new List<Appointment>();
         public CreateReport()
         {
             InitializeComponent();
             loadCombo();
-            getUsers();           
+            getUsers();
+            loadAppointments();
+        }
+
+        private void loadAppointments()
+        {
+            string query = $"SELECT a.appointmentId, a.type, c.customerName, a.start, a.end, u.username FROM appointment a JOIN customer c ON c.customerId = a.customerId " +
+                $"JOIN user u ON u.userId = a.userId";
+
+            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                appointments.Add(new Appointment
+                {
+                    AppointmentId = reader.GetInt32("appointmentId"),
+                    Type = reader.GetString("type"),
+                    CustomerName = reader.GetString("customerName"),
+                    dtStart = TimeZoneInfo.ConvertTimeFromUtc(reader.GetDateTime("start"), localZone),
+                    dtEnd = TimeZoneInfo.ConvertTimeFromUtc(reader.GetDateTime("end"), localZone),
+                    Username = reader.GetString("username")
+                });
+            }
+            reader.Close();
         }
 
         private void getUsers()
@@ -37,7 +62,7 @@ namespace c969
         private void loadCombo()
         {
             comboReport.Items.Add("Types of appointments by month");
-            comboReport.Items.Add("Etc");
+            comboReport.Items.Add("Customer Appointment History");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -47,48 +72,65 @@ namespace c969
 
         private void comboReport_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboReport.SelectedItem.ToString())
+            
+            if (comboReport.SelectedItem.ToString() == "Types of appointments by month")
             {
-                case "Types of appointments by month":
-                    appointmentsByMonth();
-                    break;
-                case "Schedule for all users":
-                    userSchedule();
-                    break;
-                case "Etc":
-                    break;
+                appointmentsByMonth();
             }
+            else if (comboReport.SelectedItem.ToString() == "Customer Appointment History")
+            {
+                customerAppointmentHistory();
+            }
+            else
+            {
+                userSchedule();
+            }
+        }
+
+        private void customerAppointmentHistory()
+        {
+            //THIRD REPORT
+            string username = comboReport.SelectedItem.ToString().Split(' ')[0];
+
+            var report = appointments
+                .GroupBy(a => new { a.CustomerName, a.Type })
+                .Select(g => new
+                {
+                    CustomerName = g.Key.CustomerName,
+                    AppointmentType = g.Key.Type,
+                    Count = g.Count()
+                }).OrderBy(a => a.CustomerName)
+                .ToList();
+
+            dgv.DataSource = report;
+            dgv.Columns["AppointmentType"].HeaderText = "Appointment Type";
+            dgv.Columns["CustomerName"].HeaderText = "Customer Name";
+            dgv.Columns["Count"].HeaderText = "Number of appointments";
         }
 
         private void userSchedule()
         {
             string username = comboReport.SelectedItem.ToString().Split(' ')[0];
 
-            MySqlCommand cmd = new MySqlCommand($"SELECT u.username, a.type, c.customerName, a.start, a.end FROM appointment a " +
-                $"JOIN customer c ON c.customerId = a.customerId JOIN user u ON u.userId = a.userId WHERE u.username = {username} ORDER BY a.start ASC", Database.DBConnection.conn);
+            var userScheduleReport = appointments
+                .Where(a => a.Username == username)
+                .OrderBy(a => a.dtStart)
+                .Select(a => new
+                {
+                    Username = a.Username,
+                    AppointmentType = a.Type,
+                    CustomerName = a.CustomerName,
+                    Start = a.dtStart,
+                    End = a.dtEnd
+                }).ToList();
 
-
+            dgv.DataSource = userScheduleReport;
+            dgv.Columns["AppointmentType"].HeaderText = "Appointment Type";
+            dgv.Columns["CustomerName"].HeaderText = "Customer Name";
         }
 
         private void appointmentsByMonth()
         {
-            List<Appointment> appointments = new List<Appointment>();
-
-
-            string query = "SELECT type, start FROM appointment";
-            MySqlCommand cmd = new MySqlCommand(query, Database.DBConnection.conn);
-            MySqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                appointments.Add(new Appointment
-                {
-                    Type = reader.GetString("type"),
-                    dtStart = TimeZoneInfo.ConvertTimeFromUtc(reader.GetDateTime("start"), localZone)
-                });
-            }
-
-
             var appointmentTypesByMonth = appointments
                 .GroupBy(a => new { a.dtStart.Year, a.dtStart.Month, a.Type })
                 .Select(g => new
@@ -100,6 +142,8 @@ namespace c969
                 }).ToList();
 
             dgv.DataSource = appointmentTypesByMonth;
+            dgv.Columns["Count"].HeaderText = "Number of appointments";
+
 
         }
     }
