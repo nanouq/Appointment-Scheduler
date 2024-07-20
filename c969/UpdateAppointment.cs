@@ -200,7 +200,6 @@ namespace c969
                 cmd.Parameters.AddWithValue("@startTime", convertedStart);
 
                 int count = Convert.ToInt32(cmd.ExecuteScalar());
-                MessageBox.Show(count.ToString());
                 return count > 0;
             }
         }
