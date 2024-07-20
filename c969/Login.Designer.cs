@@ -109,7 +109,6 @@
             this.locationLabel.Size = new System.Drawing.Size(48, 13);
             this.locationLabel.TabIndex = 7;
             this.locationLabel.Text = "Location";
-            this.locationLabel.Click += new System.EventHandler(this.locationLabel_Click);
             // 
             // closeButton
             // 

@@ -27,7 +27,7 @@ namespace c969
             InitializeComponent();
             locationLabel.Text = CultureInfo.CurrentCulture.DisplayName;
 
-            //Translate login text to French when localization is changed.
+            //Translates login and error control messages into french
             if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "fr")
             {
                 usernameLabel.Text = "Nom d'utilisateur";
@@ -46,14 +46,11 @@ namespace c969
 
         }
 
-        // TO DO --- ADD CREDENTIAL VERIFICATION
         private void loginButton_Click(object sender, EventArgs e)
         {       
-            //Creates SQL username query
              MySqlCommand cmd = new MySqlCommand($"SELECT userId FROM user WHERE userName = '{usernameBox.Text}' AND password = '{passwordBox.Text}'", DBConnection.conn);
              MySqlDataReader reader = cmd.ExecuteReader();
 
-            //Checks for instance of username and opens schedule window if found, alerts user to an error if not found
             if (reader.HasRows)
             {
                 reader.Read();
@@ -62,7 +59,7 @@ namespace c969
                 reader.Close();
                 MessageBox.Show($"{userName} successfully logged in.");
 
-                //Write to Login_History file located in Bin folder
+                //Write to Login_History file located in /c969/bin/debug folder
                 TextWriter tw = new StreamWriter(filePath,true);
                 tw.WriteLine($"{DateTime.Now.ToString()} - {userName} logged in.");
                 tw.Close();
@@ -77,11 +74,6 @@ namespace c969
                 MessageBox.Show(errorMessage);
                 reader.Close();
             }
-        }
-
-        private void locationLabel_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void closeButton_Click(object sender, EventArgs e)
