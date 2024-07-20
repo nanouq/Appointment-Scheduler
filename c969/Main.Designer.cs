@@ -152,7 +152,7 @@
             this.appointmentsButton.Location = new System.Drawing.Point(855, 6);
             this.appointmentsButton.Name = "appointmentsButton";
             this.appointmentsButton.Size = new System.Drawing.Size(129, 43);
-            this.appointmentsButton.TabIndex = 14;
+            this.appointmentsButton.TabIndex = 1;
             this.appointmentsButton.Text = "Appointments";
             this.appointmentsButton.UseVisualStyleBackColor = true;
             this.appointmentsButton.Click += new System.EventHandler(this.appointmentsButton_Click);

@@ -90,6 +90,7 @@ AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
             weekButton.Enabled = false;
             dayButton.Enabled = false;
             appointmentCalendar.Enabled = false;
+            appointmentsButton.Focus();
         }
 
         private void reloadCustomers()
@@ -178,6 +179,7 @@ AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
 
             appointmentView.DataSource = dt;
             appointmentsButton.Enabled = false;        
+            
         }
 
         private void appointmentsButton_Click(object sender, EventArgs e)
@@ -189,6 +191,7 @@ AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
             weekButton.Enabled = true;
             dayButton.Enabled = true;
             appointmentCalendar.Enabled = true;
+            customerButton.Focus();
         }
 
         private void addButton_Click(object sender, EventArgs e)
