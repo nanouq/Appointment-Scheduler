@@ -57,8 +57,15 @@ namespace c969
                 userId = Convert.ToInt32(reader[0]);
                 userName = usernameBox.Text;
                 reader.Close();
-                MessageBox.Show($"{userName} successfully logged in.");
-
+                if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "fr")
+                {
+                    MessageBox.Show($"{userName} connecté.");
+                }
+                else
+                {
+                    MessageBox.Show($"{userName} successfully logged in.");
+                }
+                
                 //Write to Login_History file located in /c969/bin/debug folder
                 TextWriter tw = new StreamWriter(filePath,true);
                 tw.WriteLine($"{DateTime.Now.ToString()} - {userName} logged in.");
