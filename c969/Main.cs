@@ -18,6 +18,7 @@ namespace c969
     public partial class Main : Form
     {
         User currentUser;
+        TimeZoneInfo localZone = TimeZoneInfo.Local;
         public Main(User user)
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace c969
 
         private void checkForUpcomingAppointments()
         {
-            TimeZoneInfo localZone = TimeZoneInfo.Local;
+            
             List<Appointment> upcomingAppointments = new List<Appointment>();
             string query = @"SELECT c.customerName, a.type, a.start FROM appointment a JOIN customer c ON c.customerId = a.customerId WHERE a.userId = @userId 
 AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
@@ -42,7 +43,6 @@ AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                MessageBox.Show("ROW WAS FOUND");
                 upcomingAppointments.Add(new Appointment
                 {
                     CustomerName = reader.GetString("customerName"),
@@ -69,23 +69,19 @@ AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //closes the hidden login form to close the whole program     
+        {  
             Application.Exit();
         }
 
         private void exitButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
-            this.Close();
+            DialogResult result = MessageBox.Show($"Are you sure you want to close the application?", "Exit Application", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        //Changes the datagridview and UI to customer information
         private void customerButton_Click(object sender, EventArgs e)
         {
             reloadCustomers();
@@ -108,7 +104,6 @@ AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
             appointmentView.DataSource = dt;
             customerButton.Enabled = false;
 
-            //set column names
             appointmentView.Columns[0].HeaderText = "Customer Id";
             appointmentView.Columns[1].HeaderText = "Customer Name";
             appointmentView.Columns[2].HeaderText = "Address";
@@ -118,10 +113,8 @@ AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
             appointmentView.Columns[6].HeaderText = "Phone";
         }
 
-        //Changes the datagridview and UI to appointment information (default)
         private void reloadAppointments()
         {
-            TimeZoneInfo localZone = TimeZoneInfo.Local;
             mainText.Text = "Appointments";
             MySqlCommand cmd = new MySqlCommand("SELECT a.appointmentId, a.type, c.customerName, a.start, a.end, u.username FROM appointment a " +
                 "JOIN customer c ON c.customerId = a.customerId JOIN user u ON u.userId = a.userId ORDER BY a.start ASC", DBConnection.conn);
@@ -170,49 +163,22 @@ AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
                 filteredAppointments = appointments.FindAll(a => a.dtStart >= startDate && a.dtEnd <= endDate);
             }
 
-            DataTable dtt = new DataTable();
-            dtt.Columns.Add("Appointment ID");
-            dtt.Columns.Add("Type");
-            dtt.Columns.Add("Customer Name");
-            dtt.Columns.Add("Start");
-            dtt.Columns.Add("End");
-            dtt.Columns.Add("User");
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Appointment ID");
+            dt.Columns.Add("Type");
+            dt.Columns.Add("Customer Name");
+            dt.Columns.Add("Start");
+            dt.Columns.Add("End");
+            dt.Columns.Add("User");
 
             foreach (var appointment in filteredAppointments)
             {
-                dtt.Rows.Add(appointment.AppointmentId, appointment.Type, appointment.CustomerName, appointment.dtStart, appointment.dtEnd, appointment.Username);
-            }
-
-            appointmentView.DataSource = dtt;
-
-            //appointmentView.DataSource = 
-            /*
-
-            MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            adp.Fill(dt);
-
-            
-
-            foreach (DataRow row in dt.Rows)
-            {
-                DateTime utcStart = (DateTime)row["start"];
-                DateTime utcEnd = (DateTime)row["end"];
-
-                DateTime localStart = TimeZoneInfo.ConvertTimeFromUtc(utcStart, localZone);
-                DateTime localEnd = TimeZoneInfo.ConvertTimeFromUtc(utcEnd, localZone);
-
-                row["start"] = localStart;
-                row["end"] = localEnd;
+                dt.Rows.Add(appointment.AppointmentId, appointment.Type, appointment.CustomerName, appointment.dtStart, appointment.dtEnd, appointment.Username);
             }
 
             appointmentView.DataSource = dt;
-
-            */
             appointmentsButton.Enabled = false;        
         }
-
-        
 
         private void appointmentsButton_Click(object sender, EventArgs e)
         {    
@@ -265,11 +231,9 @@ AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
                 if (appointmentView.SelectedRows.Count != 0)
                 {
                     int customerId = Convert.ToInt32(appointmentView.SelectedRows[0].Cells[0].Value);
-                    DialogResult result = MessageBox.Show($"Are you sure you want to delete customer: {appointmentView.SelectedRows[0].Cells[1].Value} and all associated appointments?", "Delete Customer", MessageBoxButtons.YesNo);
+                    DialogResult result = MessageBox.Show($"Are you sure you want to delete customer: {appointmentView.SelectedRows[0].Cells[1].Value} and all associated appointments?", "Delete Customer", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
-                        //eventually delete all appointments associated with customer BEFORE deleting customer
-                        //delete customer here
                         Helper.deleteCustomer(customerId);
                         MessageBox.Show("Customer and all associated appointments were successfully deleted.");
                         reloadCustomers();
@@ -281,10 +245,9 @@ AND start BETWEEN @now AND @fifteenMinutesFromNow ORDER BY a.start ASC";
                 if (appointmentView.SelectedRows.Count != 0)
                 {
                     int appointmentId = Convert.ToInt32(appointmentView.SelectedRows[0].Cells[0].Value);              
-                    DialogResult result = MessageBox.Show($"Are you sure you want to delete this appointment for: {appointmentView.SelectedRows[0].Cells[2].Value}?", "Delete Appointment", MessageBoxButtons.YesNo);
+                    DialogResult result = MessageBox.Show($"Are you sure you want to delete this appointment for: {appointmentView.SelectedRows[0].Cells[2].Value}?", "Delete Appointment", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
-                        //delete appointment here
                         Helper.deleteAppointment(appointmentId);
                         MessageBox.Show("Appointment was successfully deleted.");
                         reloadAppointments();

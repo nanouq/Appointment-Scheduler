@@ -21,8 +21,6 @@ namespace c969.Database
                 conn = new MySqlConnection(constr);
 
                 conn.Open();
-
-                MessageBox.Show("Connection is open");
             }
             catch (MySqlException ex)
             {
