@@ -79,6 +79,10 @@ namespace c969
             else
             {
                 MessageBox.Show(errorMessage);
+                userName = usernameBox.Text;
+                TextWriter tw = new StreamWriter(filePath, true);
+                tw.WriteLine($"{DateTime.Now.ToString()} - {userName} failed login attempt.");
+                tw.Close();
                 reader.Close();
             }
         }
