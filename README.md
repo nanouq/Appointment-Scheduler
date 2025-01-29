@@ -1,6 +1,6 @@
 # Appointment Scheduler
 
-Appointment manager is a desktop application built with WinForms to manager customer appointments. 
+Appointment Scheduler is a desktop application built with WinForms to manage customer appointments. 
 
 ## Features
 - Customer Management: Add, edit, and delete customer records.
